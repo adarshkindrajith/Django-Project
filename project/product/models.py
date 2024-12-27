@@ -23,9 +23,8 @@ class Product(models.Model):
     name=models.CharField(max_length=100)
     price=models.CharField(max_length=20)
     category=models.ForeignKey(Category, on_delete=models.CASCADE,default=1)
-    description=models.CharField(max_length=250,default='',blank=True,null=True)
+    description=models.CharField(max_length=500,default='',blank=True,null=True)
     image=models.ImageField(upload_to='static/assets/img/')
-
     is_sale=models.BooleanField(default=False)
     sale_price=models.CharField(blank=True,max_length=20)
 
