@@ -8,6 +8,14 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class Brand(models.Model):
+    name=models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class Customer(models.Model):
     first_name=models.CharField(max_length=50)
     last_name=models.CharField(max_length=50)
@@ -23,6 +31,7 @@ class Product(models.Model):
     name=models.CharField(max_length=100)
     price=models.CharField(max_length=20)
     category=models.ForeignKey(Category, on_delete=models.CASCADE,default=1)
+    brand=models.ForeignKey(Brand, on_delete=models.CASCADE,default=1)
     description=models.CharField(max_length=500,default='',blank=True,null=True)
     image=models.ImageField(upload_to='static/assets/img/')
     is_sale=models.BooleanField(default=False)

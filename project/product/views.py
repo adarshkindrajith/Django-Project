@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from .models import Product,Category
+from .models import Product,Category,Brand
 from django.contrib import messages
 
 # Create your views here.
@@ -21,4 +21,16 @@ def category(request,ab):
         return render(request,'product/category.html',{'products':products, 'category':category})
     except:
         messages.success(request,("That category Doesn't Exist..."))
+        return redirect('product')
+    
+
+
+def brand(request,ab):
+    ab=ab.replace('-',' ')
+    try:
+        brand=Brand.objects.get(name=ab)
+        products=Product.objects.filter(brand=brand)
+        return render(request,'product/category.html',{'products':products, 'brand':brand})
+    except:
+        messages.success(request,("That brand Doesn't Exist..."))
         return redirect('product')

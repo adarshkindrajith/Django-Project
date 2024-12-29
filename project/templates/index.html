@@ -2,10 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Vesperr Bootstrap Template</title>
+  <title></title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -37,7 +39,10 @@
   ======================================================== -->
 </head>
 
-<body class="index-page">
+
+
+
+<body class="index-page ">
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
@@ -51,8 +56,8 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero" class="active">Home<br></a></li>
-          <li><a href="#about">About</a></li>
           <li><a href="{% url 'product'%}">Product</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#team">Cart <i class="bi bi-cart-fill fs-5"></i></a></li>
           <li class="dropdown"><a href="#"><span>Shop</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -75,64 +80,63 @@
   <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section">
-
-      <div class="container">
-        <div class="row gy-4">
+    <div id="hero" class="hero section bg-black" style="position-absolute; display:flex;justify-content: center;align-items: center;
+    overflow: hidden;">
+      <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+        <div class="video-background w-100 h-100">
+        <video autoplay muted loop id="bg-video" class="container-fluid">
+            <source src="{% static 'videos/1.mp4' %}" type="video/mp4">
+        </video>
+        </div>
+    
+     {% comment %} <div class="container">
+        <div class="row gy-4 m-auto ">
           <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h1>Grow your business with Vesperr</h1>
-            <p>We are team of talented designers making websites with Bootstrap</p>
+            <h1 class="text-white">Explore The WearBig Collection </h1>
+            <p class="text-white">The WearBig collection offers a wide range of prestigious, high-precision timepieces, from Professional to Classic models to suit any wrist</p>
             <div class="d-flex">
               <a href="#about" class="btn-get-started">Get Started</a>
               <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"></a>
             </div>
           </div>
           <div class="col-lg-6 order-1 order-lg-2 hero-img">
-            <img src="{% static 'assets/img/rolex.webp'%}" class="img-fluid animated" alt="">
+            <img src="{% static 'assets/img/rolex.webp'%}" class="img-fluid animated" style="margin-top:-20%; width:70%; ">
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
 
-    </section><!-- /Hero Section -->
+    </div><!-- /Hero Section -->
 
     <!-- Clients Section -->
-    <section id="clients" class="clients section light-background">
+    <section  class="clients section bg-black">
 
       <div class="container" data-aos="fade-up">
 
-        <div class="row gy-4">
+        <div class="row gy-2 justify-content-center ">
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="{% static 'assets/img/clients/client-1.png'%}" class="img-fluid" alt="">
+          <div class="col-xl-3 col-md-3  col-6 client-logo">
+            <img src="{% static 'assets/img/Rolex_Logo.svg'%}" class="img-fluid" alt="">
           </div><!-- End Client Item -->
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="{% static 'assets/img/clients/client-2.png'%}" class="img-fluid" alt="">
+          <div class="col-xl-3 col-md-3 col-6 client-logo">
+            <img src="{% static 'assets/img/2.png'%}" class="img-fluid" alt="">
           </div><!-- End Client Item -->
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="{% static 'assets/img/clients/client-3.png'%}" class="img-fluid" alt="">
+          <div class="col-xl-3 col-md-3 col-6 client-logo">
+            <img src="{% static 'assets/img/Fast22.jpg'%}" class="img-fluid" alt="">
           </div><!-- End Client Item -->
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="{% static 'assets/img/clients/client-4.png'%}" class="img-fluid" alt="">
+          <div class="col-xl-3 col-md-3 col-6 client-logo">
+            <img src="{% static 'assets/img/watch-brand-Patek-Philippe.jpg'%}" class="img-fluid" alt="">
           </div><!-- End Client Item -->
 
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="{% static 'assets/img/clients/client-5.png'%}" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="{% static 'assets/img/clients/client-6.png'%}" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          
 
         </div>
 
       </div>
 
     </section><!-- /Clients Section -->
-
-
 
 
 
@@ -154,130 +158,10 @@
 
 
 
-    <!-- About Section -->
-    <section id="about" class="about section">
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>About Us</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-5">
-
-          <div class="content col-xl-5 d-flex flex-column" data-aos="fade-up" data-aos-delay="100">
-            <h3>Voluptatem dignissimos provident quasi</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-            </p>
-            <a href="#" class="about-btn align-self-center align-self-xl-start"><span>About us</span> <i class="bi bi-chevron-right"></i></a>
-          </div>
-
-          <div class="col-xl-7" data-aos="fade-up" data-aos-delay="200">
-            <div class="row gy-4">
-
-              <div class="col-md-6 icon-box position-relative">
-                <i class="bi bi-briefcase"></i>
-                <h4><a href="" class="stretched-link">Corporis voluptates sit</a></h4>
-                <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
-              </div><!-- Icon-Box -->
-
-              <div class="col-md-6 icon-box position-relative">
-                <i class="bi bi-gem"></i>
-                <h4><a href="" class="stretched-link">Ullamco laboris nisi</a></h4>
-                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-              </div><!-- Icon-Box -->
-
-              <div class="col-md-6 icon-box position-relative">
-                <i class="bi bi-broadcast"></i>
-                <h4><a href="" class="stretched-link">Labore consequatur</a></h4>
-                <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
-              </div><!-- Icon-Box -->
-
-              <div class="col-md-6 icon-box position-relative">
-                <i class="bi bi-easel"></i>
-                <h4><a href="" class="stretched-link">Beatae veritatis</a></h4>
-                <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p>
-              </div><!-- Icon-Box -->
-
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Stats Section -->
-    <section id="stats" class="stats section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4 align-items-center">
-
-          <div class="col-lg-5">
-            <img src="{% static 'assets/img/stats-img.svg'%}" alt="" class="img-fluid">
-          </div>
-
-          <div class="col-lg-7">
-
-            <div class="row gy-4">
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-emoji-smile flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Happy Clients</strong> <span>consequuntur quae</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-journal-richtext flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Projects</strong> <span>adipisci atque cum quia aut</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-headset flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Hours Of Support</strong> <span>aut commodi quaerat</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-people flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Hard Workers</strong> <span>rerum asperiores dolor</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /Stats Section -->
 
     <!-- Services Section -->
-    <section id="services" class="services section">
+    <section id="services" class="services section bg-black">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -328,65 +212,61 @@
     </section><!-- /Services Section -->
 
     <!-- Alt Services Section -->
-    <section id="alt-services" class="alt-services section">
+    <section id="alt-services" class="alt-services section bg-black">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row gy-4">
+        <div class="row gy-4  ">
 
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="200">
+          <div class="col-lg-15" data-aos="zoom-in" data-aos-delay="200">
             <div class="service-item position-relative">
               <div class="img">
-                <img src="{% static 'assets/img/services-1.jpg'%}" class="img-fluid" alt="">
+                <img src="{% static 'assets/img/rolexhome.jpg'%}" class="img-fluid" alt="">
               </div>
               <div class="details">
-                <a href="service-details.html" class="stretched-link">
-                  <h3>Nesciunt Mete</h3>
+                <a href="{% url 'brand' 'Rolex'%}" class="stretched-link">
+                  <h3>Rolex World</h3>
                 </a>
-                <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis.</p>
               </div>
             </div>
           </div><!-- End Service Item -->
 
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="300">
+          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="service-item position-relative">
               <div class="img">
-                <img src="{% static 'assets/img/services-2.jpg'%}" class="img-fluid" alt="">
+                <img src="{% static 'assets/img/tissothome1.webp'%}" class="img-fluid" alt="">
               </div>
               <div class="details">
-                <a href="service-details.html" class="stretched-link">
-                  <h3>Eosle Commodi</h3>
+                <a href="{% url 'brand' 'Tissot'%}" class="stretched-link">
+                  <h3>Tissot World</h3>
                 </a>
-                <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
               </div>
             </div>
           </div><!-- End Service Item -->
 
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="400">
+          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="service-item position-relative">
               <div class="img">
-                <img src="{% static 'assets/img/services-3.jpg'%}" class="img-fluid" alt="">
+                <img src="{% static 'assets/img/fasthome1.jpg'%}" class="img-fluid" alt="">
               </div>
               <div class="details">
-                <a href="service-details.html" class="stretched-link">
-                  <h3>Ledo Markt</h3>
+                <a href="{% url 'brand' 'FastTrack'%}" class="stretched-link">
+                  <h3>FastTrack World</h3>
                 </a>
-                <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
               </div>
             </div>
           </div><!-- End Service Item -->
 
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="500">
+          <div class="col-lg-15" data-aos="zoom-in" data-aos-delay="100">
             <div class="service-item position-relative">
               <div class="img">
-                <img src="{% static 'assets/img/services-4.jpg'%}" class="img-fluid" alt="">
+                <img src="{% static 'assets/img/PATEK1.jpg'%}" class="img-fluid">
               </div>
               <div class="details">
-                <a href="service-details.html" class="stretched-link">
-                  <h3>Asperiores Commodit</h3>
+                <a href="{% url 'brand' 'Petak'%}" class="stretched-link">
+                  <h3>Patek Philippe World</h3>
                 </a>
-                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-                <a href="service-details.html" class="stretched-link"></a>
+                
               </div>
             </div>
           </div><!-- End Service Item -->
@@ -903,69 +783,9 @@
 
     </section><!-- /Team Section -->
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing section">
+    
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Pricing</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-            <div class="pricing-item">
-              <h3>Free Plan</h3>
-              <h4><sup>$</sup>0<span> / month</span></h4>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <a href="#" class="buy-btn">Buy Now</a>
-            </div>
-          </div><!-- End Pricing Item -->
-
-          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
-            <div class="pricing-item featured">
-              <h3>Business Plan</h3>
-              <h4><sup>$</sup>29<span> / month</span></h4>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <a href="#" class="buy-btn">Buy Now</a>
-            </div>
-          </div><!-- End Pricing Item -->
-
-          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
-            <div class="pricing-item">
-              <h3>Developer Plan</h3>
-              <h4><sup>$</sup>49<span> / month</span></h4>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <a href="#" class="buy-btn">Buy Now</a>
-            </div>
-          </div><!-- End Pricing Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Pricing Section -->
+         
 
     <!-- Faq Section -->
     <section id="faq" class="faq section light-background">
