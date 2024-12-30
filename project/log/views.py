@@ -105,7 +105,7 @@ def loginn(request):
 
         if myuser is not None:
             login(request, myuser)
-            return render(request, 'base.html')
+            return render(request, 'log/profileview.html')
         else:
             messages.error(request, "Invalid credentials")
             return redirect('loginn')
@@ -122,4 +122,14 @@ def logout_view(request):
 class reset(View):
     def get(self,request):
         return render(request,'log/reset.html')
+    
+
+
+
+#profile view
+def profileview(request):
+    def get(self,request):
+        return render(request,"log/profileview.html")
+    def post(self,request):
+        return render(request,"log/profileview.html")
     

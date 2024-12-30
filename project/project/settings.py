@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'log',
     'product',
+   
  
 ]
 
