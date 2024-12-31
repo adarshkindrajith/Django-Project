@@ -22,6 +22,8 @@ from django.conf import settings
 import threading
 
 
+
+
 class EmailThread(threading.Thread):
     def __init__(self, email_message):
         self.email_message = email_message
@@ -105,7 +107,7 @@ def loginn(request):
 
         if myuser is not None:
             login(request, myuser)
-            return render(request, 'log/profileview.html')
+            return render(request, 'profile/profile.html')
         else:
             messages.error(request, "Invalid credentials")
             return redirect('loginn')
@@ -126,10 +128,4 @@ class reset(View):
 
 
 
-#profile view
-def profileview(request):
-    def get(self,request):
-        return render(request,"log/profileview.html")
-    def post(self,request):
-        return render(request,"log/profileview.html")
     

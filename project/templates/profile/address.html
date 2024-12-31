@@ -1,0 +1,53 @@
+{% extends 'nav.html' %}
+{% load static%}
+
+
+{% block content%}
+<div class="container my-5">
+    <div class="row">
+     <h3>Welcome <span class="text-capitalize">{{user.username}}</span></h3>
+    
+        <div class="col-sm-2 border-end">
+            <a href="{% url 'profileview'%}"><button  class="btn ">Profile</button></a>
+            <a href="{% url 'address'%}"><button  class="btn btn-primary">Address</button></a>    
+        </div>
+
+        <div class="col-sm-8 offset-sm-1">
+            <div class="row">
+            {% if add %}
+                {% for ad in add%}
+                <div class="col-sm-6">
+                    <div class="card m-2">
+                        <div class="card-body">
+                            <h2>Address-{{forloop.counter}}</h2>
+                            <p>Name:{{ad.first_name}}   {{ad.last_name}}</p>
+                            <p>location:{{ad.location}}</p>
+                            <p>Mobile:{{ad.phone}}</p>
+                            <p>City:{{ad.city}}</p>
+                            <p>Pincode:{{ad.pincode}}</p>
+                            <p><a href="{% url 'updateaddress' pk=ad.id%}"><button class="btn btn-success">Update</button></a> </p>
+                            <form method="POST" action="{% url 'deleteaddress' pk=ad.id %}">
+                                {% csrf_token %}
+                                <p><button class="btn btn-success">Delete</button></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor%}
+            {% else%}
+                <p>No address found...!!</p>
+            {% endif%}
+            </div>    
+        </div>
+
+    </div>   
+    
+</div>
+
+
+
+{% endblock content%}
+  
+
+
+

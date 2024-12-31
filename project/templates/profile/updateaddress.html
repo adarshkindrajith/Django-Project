@@ -1,0 +1,51 @@
+{% extends 'nav.html' %}
+{% load static%}
+
+
+{% block content%}
+<div class="container my-5">
+    <div class="row">
+     <h3>Welcome <span class="text-capitalize">{{user.username}}</span></h3>
+    
+        <div class="col-sm-2 border-end">
+            <a href="{% url 'profileview'%}"><button  class="btn ">Profile</button></a>
+            <a href="{% url 'address'%}"><button  class="btn btn-primary">Address</button></a>    
+        </div>
+
+        <div class="col-sm-8 offset-sm-1">
+            <div class="row">
+                
+                <form data-aos="fade-up" class="justify-content-center mt-4" method="POST" >
+                {% csrf_token %}
+                    <input class="form-control p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text" value="{{add.first_name}}" name="first_name"required><br>
+                    <input class="form-control p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"value="{{add.last_name}}" name="last_name"required><br>
+                    <select class="form-select p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" value="{{add.city}}" name="city" required>
+                        <option>Kannur</option>
+                        <option>Kozhikode</option>
+                        <option>Kasaragod</option>
+                        <option>Wayanad</option>
+                    </select><br>
+                    <input class="p-3 form-control"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"value="{{add.pincode}}" name="pincode"required><br>
+                    <input class="p-3 form-control" style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"value="{{add.location}}" name="location"required ><br>
+                    <input class="p-3 form-control" style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"value="{{add.phone}}" name="phone"required><br>
+                    <button class=" form-control btn btn-primary text-white mt-2"style="width:200px;border-radius:15px;" type="submit">submit</button>
+                    
+                    <a href="{% url 'address'%}"><button class=" form-control btn btn-primary text-white mt-2"style="width:200px;border-radius:15px;" type="submit">cancel</button></a>
+
+                </form>
+                
+           
+            </div>    
+        </div>
+
+    </div>   
+    
+</div>
+
+
+
+{% endblock content%}
+  
+
+
+
