@@ -10,4 +10,5 @@ urlpatterns = [
     path('address/',views.address,name='address'),
     path('updateaddress/<int:pk>',views.updateaddress,name='updateaddress'),
     path('deleteaddress/<int:pk>/',views.deleteaddress,name='deleteaddress'),
+    path('changepassword/',views.changepassword.as_view(),name='changepassword'),
 ]

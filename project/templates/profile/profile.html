@@ -7,9 +7,10 @@
     <div class="row">
      <h3>Welcome <span class="text-capitalize">{{user.username}}</span></h3>
     
-        <div class="col-sm-2 border-end">
-            <a href="{% url 'profileview'%}"><button  class="btn btn-primary">Profile</button></a>
-            <a href="{% url 'address'%}"><button  class="btn">Address</button></a>    
+        <div class="col-sm-2 border-end mt-3">
+            <a href="{% url 'profileview'%}"><button class="btn btn-primary">Profile</button></a><br>
+            <a href="{% url 'address'%}"><button  class="btn btn-outline-primary mt-2">Address</button></a><br>
+            <a href="{% url 'changepassword'%}"><button  class="btn btn-outline-primary mt-2">Change Password</button></a>    
         </div>
 
         <div class="col-sm-8 offset-sm-1">

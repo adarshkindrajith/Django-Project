@@ -1,6 +1,13 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Product,Category,Brand,Customer
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import login
+from django.views.generic import View
+
+
 
 # Create your views here.
 def product(request):
@@ -97,3 +104,35 @@ def deleteaddress(request, pk):
         messages.success(request, "Address deleted successfully.")
         return redirect('address')  # Redirect to the address page
     return redirect('address')
+
+
+class changepassword(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        return render(request, 'profile/changepassword.html')
+
+    @method_decorator(login_required)
+    def post(self, request):
+        current_password = request.POST['oldpass']
+        new_password = request.POST['newpass']
+        confirm_new_password = request.POST['confpass']
+
+        # Verify current password
+        if not check_password(current_password, request.user.password):
+            messages.error(request, "Current password is incorrect.")
+            return redirect('changepassword')
+
+        # Verify new passwords match
+        if new_password != confirm_new_password:
+            messages.error(request, "New passwords do not match.")
+            return redirect('changepassword')
+
+        # Update password
+        user = request.user
+        user.set_password(new_password)
+        user.save()
+
+        # Automatically log the user back in after password change
+        login(request, user)
+        messages.success(request, "Password updated successfully.")
+        return redirect('changepassword')  # Redirect to a profile or any desired page

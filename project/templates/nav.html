@@ -66,7 +66,13 @@
             </ul>
           </li>
           <li><a href="#contact">Contact</a></li>
-          <a class="btn-getstarted text-capitalize" href="">Welcome..{{user.email}}</a>
+          <li class="dropdown text-capitalize"><a href="#"><span>{{user.username}}  {{user.last_name}}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="{% url 'profileview'%}">Profile</a></li>
+              <li><a href="">Order</a></li>
+              <li><a href="">Logout</a></li>
+            </ul>
+          </li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
