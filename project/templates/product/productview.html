@@ -1,6 +1,5 @@
 {% extends 'nav.html'%}
 
-
 {% block content%}
     <div data-aos="fade-up" class="container">  
         <div class="card mb-3">
@@ -20,19 +19,26 @@
                             <div class="d-flex mt-2 text-warning mb-2 fs-2">
                                 <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
                             </div>
-                                
-                                <p class="text-danger fs-2">
-                                    <strike class="text fs-5">Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}
-                                    <p class="text-secondary fs-6">{{ product.description }}</p>
-                                </p>
-                            {% else %}
-                                <p class="text-danger fs-2">Rs.{{ product.price }}</p>
-                                <p class="text-Secondary fs-6">{{ product.description }}</p>
-                            {% endif %}
-                            <div class="mt-auto">
-                                <a href=""></a><button class="btn btn-outline-primary w-100 mb-2">Add to Cart</button>
-                                <a href="{% url 'productview' product.id%}"><button class="btn btn-primary w-100">Buy Now</button></a>
-                            </div>
+                                                
+                            <p class="text-danger fs-2">
+                                <strike class="text fs-5">Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}
+                                <p class="text-secondary fs-6">{{ product.description }}</p>
+                            </p>
+                        {% else %}
+                            <p class="text-danger fs-2">Rs.{{ product.price }}</p>
+                            <p class="text-Secondary fs-6">{{ product.description }}</p>
+                        {% endif %}
+                        
+                        <div class="mt-auto">
+                            <!-- Add to Cart Form -->
+                            <form action="{% url 'addtocart' product.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-primary w-100 mb-2">Add to Cart</button>
+                            </form>
+
+                            <!-- Buy Now Button -->
+                            <a href=""><button class="btn btn-primary w-100">Buy Now</button></a>
+                        </div>
                         <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                     </div>
                 </div>
@@ -40,8 +46,4 @@
                 
         </div>
     </div>
-    
-    
-
-
 {% endblock %}

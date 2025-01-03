@@ -9,6 +9,7 @@ from django.views.generic import View
 
 
 
+
 # Create your views here.
 def product(request):
     products=Product.objects.all()
@@ -136,3 +137,7 @@ class changepassword(View):
         login(request, user)
         messages.success(request, "Password updated successfully.")
         return redirect('changepassword')  # Redirect to a profile or any desired page
+    
+
+
+

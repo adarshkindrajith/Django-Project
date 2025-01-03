@@ -1,0 +1,35 @@
+{% extends 'nav.html' %}
+{% load static%}
+
+
+{% block content%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total: ${{ total_price }}</h3>
+</body>
+</html>
+
+{% endblock %}
