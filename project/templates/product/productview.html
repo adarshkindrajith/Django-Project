@@ -33,11 +33,12 @@
                             <!-- Add to Cart Form -->
                             <form action="{% url 'addtocart' product.id %}" method="POST">
                                 {% csrf_token %}
+                                <input type="hidden" name="prod_id" value="{{product.id}}">
                                 <button type="submit" class="btn btn-outline-primary w-100 mb-2">Add to Cart</button>
                             </form>
 
                             <!-- Buy Now Button -->
-                            <a href=""><button class="btn btn-primary w-100">Buy Now</button></a>
+                            <a href="{% url 'showcart' %}"><button class="btn btn-primary w-100">Buy Now</button></a>
                         </div>
                         <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                     </div>

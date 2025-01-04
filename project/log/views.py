@@ -37,8 +37,6 @@ class EmailThread(threading.Thread):
 def signup(request):
     if request.method == "POST":
         username = request.POST['username']
-        first_name = request.POST['fname']
-        last_name = request.POST['lname']
         email = request.POST['email']
         password = request.POST['pass1']
         confirm_password = request.POST['pass2']
@@ -56,8 +54,6 @@ def signup(request):
             return render(request, 'log/signup.html')
 
         user = User.objects.create_user(username, email, password)
-        user.first_name = first_name
-        user.last_name = last_name
         user.is_active = False
         user.save()
 
