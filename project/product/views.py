@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import login
 from django.views.generic import View
-
+from django.db.models import Q
 
 
 
@@ -138,6 +138,7 @@ class changepassword(View):
         messages.success(request, "Password updated successfully.")
         return redirect('changepassword')  # Redirect to a profile or any desired page
     
+
 
 
 

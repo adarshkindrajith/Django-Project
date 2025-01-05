@@ -37,7 +37,7 @@
   ======================================================== -->
 </head>
 
-<body class="index-page">
+<body  class="index-page">
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
@@ -79,11 +79,13 @@
 
     </div>
   </header>
-  
+  <div style="height:500vh;">
     {% block content%}
+    
+    
     {% endblock%}
 
-   
+   </div> 
 
     
 
@@ -105,6 +107,9 @@
 
   <!-- Main JS File -->
   <script src="{% static 'assets/js/main.js'%}"></script>
+
+  <script src="{% static 'assets/js/all.min.js'%}"></script>
+  <script src="{% static 'assets/js/myscripts.js'%}"></script>
        
 </body>
 

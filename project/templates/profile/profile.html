@@ -5,7 +5,7 @@
 {% block content%}
 <div class="container my-5">
     <div class="row">
-     <h3>Welcome <span class="text-capitalize">{{user.username}}</span></h3>
+     <h3 class="text-white">Welcome <span class="text-capitalize">{{user.username}}</span></h3>
     
         <div class="col-sm-2 border-end mt-3">
             <a href="{% url 'profileview'%}"><button class="btn btn-primary">Profile</button></a><br>
@@ -22,8 +22,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {% endfor %}
-                <input class="form-control p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"placeholder="First Name  " id="username" name="first_name"required><br>
-                <input class="form-control p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"placeholder="Last Name" id="fname" name="last_name"required><br>
+                <input class="form-control p-3 "style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"placeholder="First Name  " id="username" name="first_name"required><br>
+                <input class="form-control p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" type="text"placeholder="Last Name " id="fname" name="last_name"required><br>
                 <select class="form-select p-3"style=" border-color:  rgb(135, 201, 228); border-radius:20px;" aria-label="Default select example" name="city" required>
                     <option>Kannur</option>
                     <option>Kozhikode</option>
