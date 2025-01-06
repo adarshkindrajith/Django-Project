@@ -1,4 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const updateTotals = (amount, totalWithShipping) => {
+        document.getElementById("total-amount").textContent = `Rs.${amount}`;
+        document.getElementById("total-with-shipping").textContent = `Rs.${totalWithShipping}`;
+    };
+
+    const showCartEmptyMessage = () => {
+        const cartContainer = document.querySelector(".container .row");
+        cartContainer.innerHTML = `
+            <h1 class="text-center mb-5">Cart Empty</h1>
+        `;
+    };
+
     // Handle increment (plus button)
     document.querySelectorAll(".plus-cart").forEach(button => {
         button.addEventListener("click", function () {
@@ -12,14 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.quantity) {
-                    // Update quantity
                     this.previousElementSibling.textContent = data.quantity;
-
-                    // Update totals
-                    document.getElementById("total-amount").textContent = `Rs.${data.amount}`;
-                    document.getElementById("total-with-shipping").textContent = `Rs.${data.total_amount}`;
+                    updateTotals(data.amount, data.total_amount);
                 }
-            });
+            })
+            .catch(error => console.error("Error updating cart:", error));
         });
     });
 
@@ -36,32 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.action === "updated") {
-                    // Update quantity
                     this.nextElementSibling.textContent = data.quantity;
-
-                    // Update totals
-                    document.getElementById("total-amount").textContent = `Rs.${data.amount}`;
-                    document.getElementById("total-with-shipping").textContent = `Rs.${data.total_amount}`;
+                    updateTotals(data.amount, data.total_amount);
                 } else if (data.action === "deleted") {
-                    // Remove the item row if deleted
                     this.closest(".row").remove();
+                    updateTotals(data.amount, data.total_amount);
 
-                    // Update totals
-                    document.getElementById("total-amount").textContent = `Rs.${data.amount}`;
-                    document.getElementById("total-with-shipping").textContent = `Rs.${data.total_amount}`;
+                    if (data.cart_empty) {
+                        showCartEmptyMessage();
+                    }
                 }
-            });
+            })
+            .catch(error => console.error("Error updating cart:", error));
         });
     });
-});
 
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
     // Handle remove button
     document.querySelectorAll(".remove-cart").forEach(button => {
         button.addEventListener("click", function () {
@@ -75,15 +73,15 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.action === "deleted") {
-                    // Remove the item row from the DOM
                     this.closest(".row").remove();
+                    updateTotals(data.amount, data.total_amount);
 
-                    // Update totals
-                    document.getElementById("total-amount").textContent = `Rs.${data.amount}`;
-                    document.getElementById("total-with-shipping").textContent = `Rs.${data.total_amount}`;
+                    if (data.cart_empty) {
+                        showCartEmptyMessage();
+                    }
                 }
-            });
+            })
+            .catch(error => console.error("Error removing item:", error));
         });
     });
 });
-    

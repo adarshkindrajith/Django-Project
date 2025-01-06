@@ -1,0 +1,26 @@
+{% extends 'nav.html' %}
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">Order Summary</h2>
+    {% if orders %}
+        <div class="row">
+            {% for order in orders %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Order ID: {{ order.id }}</h5>
+                            <p>Product: {{ order.product.name }}</p>
+                            <p>Quantity: {{ order.quantity }}</p>
+                            <p>Total: Rs.{{ order.total_amount }}</p>
+                            <p>Address: {{ order.address.location }}, {{ order.address.city }}, {{ order.address.pincode }}</p>
+                            <p>Ordered on: {{ order.created_at }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h4 class="text-center">You have no orders yet.</h4>
+    {% endif %}
+</div>
+{% endblock %}

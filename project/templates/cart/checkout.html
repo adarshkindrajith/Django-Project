@@ -1,67 +1,60 @@
-{% extends 'nav.html'%}
-{% load static%}
+{% extends 'nav.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
+    <h2 class="text-center my-4">Checkout</h2>
     {% if messages %}
-        {% for msg in messages%}
+        {% for msg in messages %}
             <div class="alert alert-danger" role="alert">
-                {{msg}}
+                {{ msg }}
             </div>
-        {% endfor%}    
-    {% endif%}
-    <div class="row mt-5">
-        <div class="col-sm-6">
-        <h4>Order Summary</h4>
-        <hr>
-        {% for item in cart_items%}
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5>Product:{{item.product.name}}</h5>
-                    <p>Quantity:{{item.quantity}}</p>
-                    <p class="fw-bold">Price :{{item.product.price}}</p>    
-                </div>
-            </div>
-        {% endfor%}
-        <p class="fw-bold">Total cost + Rs.40 ={{total-amount}}</p>
-        <small>By proceeding with your payment, you confirm that all provided payment information is accurate and complete. 
-        Payments are processed securely through our third-party payment gateway, and we are not liable for any issues that may arise during the transaction.
-        </small>
-        </div>
-        <div class="col-sm-4 offset-sm-1">
-            <h4>Select Shipping Address</h4>
+        {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="text-center">Order Summary</h4>
             <hr>
-            <form action="" method="POST" id="myform">
-                {% csrf_token%}
-                {% for ad in add%}
-                <div class="card">
-                    <div class="card-body">
-                    <h5>{{ad.name}}</h5>
-                    <p>Mobile: {{ad.mobile}}</p>
-                    <p>{{ad.location}} {{ad.city}} {{ad.pincode}} </p>
+            {% for item in cart_items %}
+                <div class="card mb-2">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5><strong>{{ item.product.name }}</strong></h5>
+                            <p>Quantity: {{ item.quantity }}</p>
+                            <p class="fw-bold">Price: Rs. {{ item.product.price }}</p>
+                        </div>
+                        <div class="ms-3">
+                            <img src="{{ item.product.image.url }}" alt="Product Image" class="img-thumbnail" style="width: 100px; height: auto;">
+                        </div>
                     </div>
                 </div>
-                    <div class="form-check mt-2 mb-5">
-                        <input class="form-check-input" type="radio" name="custid" id="custid{{forloop.counter}}" value="{{ad.id}}">
-                        <label class="form-check-input fw-bold" for="custid{{forloop.counter}}">
-                        Address: {{forloop.counter}}</label>                    
+            {% endfor %}
+            <p class="fw-bold text-center fs-5 mt-3">Total Cost + Rs.40 (Shipping) = Rs.{{ total_amount }}</p>
+        </div>
+        <div class="col-md-6">
+            <h4 class="text-center">Shipping Address</h4>
+            <hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {% for address in add %}
+                    <div class="card mb-1">
+                        <div class="card-body p-4">
+                            <h5><strong>Name: {{ address.first_name }} {{ address.last_name }}</strong></h5>
+                            <p>Mobile: {{ address.phone }}</p>
+                            <p>Location: {{ address.location }}</p> 
+                            <p>City: {{ address.city }}</p>
+                            <p>Pincode: {{ address.pincode }}</p>
+                        </div>
                     </div>
-                {% endfor%}
-                <div class="form-check mb-3">
-                    <label for="total-amount" class="form-label">Total Amount</label>
-                    <input type="number" class="form-control" name="total-amount" value="{{total-amount}}" readonly>
+                    <div class="form-check p-4">
+                        <input type="radio" class="form-check-input" name="custid" id="address{{ forloop.counter }}" value="{{ address.id }}">
+                        <label class="form-check-label" for="address{{ forloop.counter }}">Use this address</label>
+                    </div>
+                {% endfor %}
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-primary">Place Order</button>
                 </div>
-                <div class="text-end">
-                    <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
-                    
-                    {% comment %} <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Payment</button> {% endcomment %}
-
-                </div>   
             </form>
         </div>
     </div>
-
-
 </div>
-
-
-{% endblock  %}
+{% endblock %}
