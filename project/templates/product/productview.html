@@ -1,9 +1,8 @@
-{% extends 'nav.html'%}
+{% extends 'nav.html' %}
 
-{% block content%}
+{% block content %}
     <div data-aos="fade-up" class="container">  
         <div class="card mb-3">
-        
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
@@ -14,43 +13,43 @@
                         <p class="card-text text-success mb-1 fs-4">{{ product.category }}</p>
                         {% if product.is_sale %}
                             <div class="badge bg-danger fs-5 text-white position-absolute w-30 h-20" style="top:0.5rem; right: 0.5rem;">
-                               Top Sale
+                                Top Sale
                             </div>
                             <div class="d-flex mt-2 text-warning mb-2 fs-2">
                                 <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
                             </div>
-                                                
                             <p class="text-danger fs-2">
                                 <strike class="text fs-5">Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}
-                                <p class="text-secondary fs-6">{{ product.description }}</p>
                             </p>
+                            <p class="text-secondary fs-6">{{ product.description }}</p>
                         {% else %}
                             <p class="text-danger fs-2">Rs.{{ product.price }}</p>
-                            <p class="text-Secondary fs-6">{{ product.description }}</p>
+                            <p class="text-secondary fs-6">{{ product.description }}</p>
                         {% endif %}
-                        
-                        <div class="mt-auto">
-                            <!-- Add to Cart Form -->
-                            <form action="{% url 'addtocart' product.id %}" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="prod_id" value="{{product.id}}">
-                                <button type="submit" class="btn btn-outline-primary w-100 mb-2">Add to Cart</button>
-                            </form>
 
-                            <!-- Buy Now Button -->
-                            <a href="{% url 'showcart' %}"><button class="btn btn-primary w-100">Buy Now</button></a>
+                        <div class="mt-auto">
+                            <p class="card-text fs-6"><small class="text-body-secondary"><strong>Delivery within 7-10 days</strong></small></p>
+                            <!-- Buttons arranged in a single row -->
+                            <div class="d-flex justify-content-start">
+                            
+                                <!-- Add to Cart Form -->
+                                <form action="{% url 'addtocart' product.id %}" method="POST" class="m">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="prod_id" value="{{ product.id }}">
+                                    <button type="submit" class="btn btn-outline-primary w-20">Add to Cart</button>
+                                </form>
+
+                                <!-- Buy Now Button -->
+                                <a href="{% url 'showcart' %}" class="w-50 ms-2">
+                                    <button class="btn btn-outline-primary w-20">Buy Now</button>
+                                </a>
+                            </div>
                         </div>
+
                         <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                     </div>
                 </div>
             </div>
-                
         </div>
     </div>
 {% endblock %}
-
-
-
-
-
-

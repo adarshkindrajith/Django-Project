@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'log',
     'product',
     'cart',
+    'Owner',
    
  
 ]

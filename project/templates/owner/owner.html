@@ -1,0 +1,46 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<div class="container justify-content-center"><br>
+    <h1 class="text-center">Members</h1>
+    
+    <!-- Display Logged-In User Details -->
+    <div class="text-end">
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-success m-2" type="button">Log Out</button>
+        </a>
+    </div>
+
+    <!-- Members Table -->
+    <table class="table table-bordered border-primary" id="customers" border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th colspan="2" id="mid">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>   
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <!-- Action Buttons -->
+                <td>
+                    <a href="">
+                        <button class="btn btn-primary btn-sm">Update</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="">
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

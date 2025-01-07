@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.views.generic import View
 from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 # Activate mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -95,20 +96,29 @@ class ActivateAccountView(View):
         return render(request, 'log/activatefail.html')
 
 
+
+@csrf_exempt
 def loginn(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['pass1']
         myuser = authenticate(username=username, password=password)
 
-        if myuser is not None:
-            login(request, myuser)
-            return render(request, 'profile/profile.html')
+        if myuser is not None:  # Check if the user is authenticated
+            if myuser.is_superuser:  # Check if the user is a superuser
+                login(request, myuser)
+                users = User.objects.all()
+                return render(request, 'owner/owner.html', {'users': users})  # Redirect to the superuser page
+            else:
+                login(request, myuser)
+                return render(request, 'profile/profile.html')  # Redirect to a regular user's profile
         else:
             messages.error(request, "Invalid credentials")
-            return redirect('loginn')
+            return redirect('loginn')  # Redirect back to the login page
 
     return render(request, 'log/login.html')
+
+
 
 
 def logout_view(request):
@@ -121,6 +131,9 @@ class reset(View):
     def get(self,request):
         return render(request,'log/reset.html')
     
+
+
+
 
 
 

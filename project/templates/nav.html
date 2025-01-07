@@ -28,6 +28,9 @@
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
 
+
+
+  
   <!-- =======================================================
   * Template Name: Vesperr
   * Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
@@ -53,7 +56,7 @@
           <li><a href="{% url 'index'%}" class="active">Home<br></a></li>
           <li><a href="{% url 'product'%}">Product</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="">Cart <i class="bi bi-cart-fill fs-5"></i>
+          <li><a href="{% url 'showcart' %}">Cart <i class="bi bi-cart-fill fs-5"></i>
           <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{cart|length}}
           </span>
           </a></li>   

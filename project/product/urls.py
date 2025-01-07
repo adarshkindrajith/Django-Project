@@ -11,6 +11,6 @@ urlpatterns = [
     path('updateaddress/<int:pk>',views.updateaddress,name='updateaddress'),
     path('deleteaddress/<int:pk>/',views.deleteaddress,name='deleteaddress'),
     path('changepassword/',views.changepassword.as_view(),name='changepassword'),
-    
+    path('search/',views.search,name='search'),
     
 ]

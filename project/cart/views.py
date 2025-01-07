@@ -19,13 +19,15 @@ def addtocart(request, product_id):
     else:
 
         Cart.objects.create(user=user, product=product, quantity=1) 
-    return redirect('showcart')
-
+    return redirect('product')
 
 def showcart(request):
-    user=request.user
-    cart=Cart.objects.filter(user=user)
-    total_amount = sum(item.product.price * item.quantity for item in cart)
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    total_amount = sum(
+        (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
+        for item in cart
+    )
     shipping_cost = 40  
     total_with_shipping = total_amount + shipping_cost
 
@@ -34,7 +36,9 @@ def showcart(request):
         'amount': total_amount,
         'totalamount': total_with_shipping,
     }
-    return render(request,'cart/addtocart.html',context)
+    return render(request, 'cart/addtocart.html', context)
+
+
 
 def plus_cart(request):
     if request.method == "GET":
@@ -44,9 +48,13 @@ def plus_cart(request):
             cart_item.quantity += 1
             cart_item.save()
 
+            # Recalculate the total amount and total with shipping
             user = request.user
             cart = Cart.objects.filter(user=user)
-            total_amount = sum(item.product.price * item.quantity for item in cart)
+            total_amount = sum(
+                (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
+                for item in cart
+            )
             shipping_cost = 40  # Static shipping cost
             total_with_shipping = total_amount + shipping_cost
 
@@ -59,11 +67,11 @@ def plus_cart(request):
         except Cart.DoesNotExist:
             return JsonResponse({'error': 'Cart item not found'}, status=404)
 
+
 def minus_cart(request):
     if request.method == "GET":
         prod_id = request.GET['prod_id']
         try:
-            # Retrieve the cart item
             cart_item = Cart.objects.get(Q(product_id=prod_id) & Q(user=request.user))
 
             # Decrement quantity or remove item
@@ -78,11 +86,13 @@ def minus_cart(request):
             # Recalculate totals
             user = request.user
             cart = Cart.objects.filter(user=user)
-            total_amount = sum(item.product.price * item.quantity for item in cart)
+            total_amount = sum(
+                (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
+                for item in cart
+            )
             shipping_cost = 40 if cart.exists() else 0  # Set shipping to 0 if cart is empty
             total_with_shipping = total_amount + shipping_cost
 
-            # Prepare response data
             data = {
                 'quantity': cart_item.quantity if action == "updated" else 0,
                 'amount': total_amount,
@@ -93,27 +103,28 @@ def minus_cart(request):
         except Cart.DoesNotExist:
             return JsonResponse({'error': 'Cart item not found'}, status=404)
 
+
 def remove_cart(request):
     if request.method == "GET":
         prod_id = request.GET['prod_id']
         try:
-            # Retrieve and delete the cart item
             cart_item = Cart.objects.get(Q(product_id=prod_id) & Q(user=request.user))
             cart_item.delete()
 
-            # Recalculate totals after removal
             user = request.user
             cart = Cart.objects.filter(user=user)
-            total_amount = sum(item.product.price * item.quantity for item in cart)
+            total_amount = sum(
+                (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
+                for item in cart
+            )
             shipping_cost = 40 if cart.exists() else 0  # Set shipping to 0 if cart is empty
             total_with_shipping = total_amount + shipping_cost
 
-            # Prepare response data
             data = {
                 'amount': total_amount,
                 'total_amount': total_with_shipping,
                 'action': 'deleted',
-                'cart_empty': not cart.exists(),  # Check if the cart is empty
+                'cart_empty': not cart.exists(),
             }
             return JsonResponse(data)
         except Cart.DoesNotExist:
@@ -124,12 +135,15 @@ def remove_cart(request):
 
 
 
-
-
 def checkout(request):
     user = request.user
     cart_items = Cart.objects.filter(user=user)
-    total_amount = sum(item.product.price * item.quantity for item in cart_items)
+    
+    # Calculate total amount with the correct price (sale_price or regular price)
+    total_amount = sum(
+        (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
+        for item in cart_items
+    )
     shipping_cost = 40
     total_with_shipping = total_amount + shipping_cost
 
@@ -154,7 +168,7 @@ def checkout(request):
                 product=item.product,
                 quantity=item.quantity,
                 address=address,
-                total_amount=total_with_shipping
+                total_amount=total_with_shipping  # Correctly passing the total with shipping
             )
 
         # Clear the cart after order placement
@@ -168,6 +182,9 @@ def checkout(request):
         'add': addresses,
     }
     return render(request, 'cart/checkout.html', context)
+
+
+
 
 def order_summary(request):
     user = request.user

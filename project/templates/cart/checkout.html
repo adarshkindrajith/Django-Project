@@ -20,7 +20,14 @@
                         <div class="flex-grow-1">
                             <h5><strong>{{ item.product.name }}</strong></h5>
                             <p>Quantity: {{ item.quantity }}</p>
-                            <p class="fw-bold">Price: Rs. {{ item.product.price }}</p>
+                            <p class="fw-bold">
+                                Price: Rs. 
+                                {% if item.product.is_sale and item.product.sale_price %}
+                                    {{ item.product.sale_price }}
+                                {% else %}
+                                    {{ item.product.price }}
+                                {% endif %}
+                            </p>
                         </div>
                         <div class="ms-3">
                             <img src="{{ item.product.image.url }}" alt="Product Image" class="img-thumbnail" style="width: 100px; height: auto;">

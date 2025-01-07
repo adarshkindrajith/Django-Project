@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.quantity) {
                     this.previousElementSibling.textContent = data.quantity;
+
+                    // Update totals
                     updateTotals(data.amount, data.total_amount);
                 }
             })
@@ -46,9 +48,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.action === "updated") {
                     this.nextElementSibling.textContent = data.quantity;
+
+                    // Update totals
                     updateTotals(data.amount, data.total_amount);
                 } else if (data.action === "deleted") {
                     this.closest(".row").remove();
+
+                    // Update totals
                     updateTotals(data.amount, data.total_amount);
 
                     if (data.cart_empty) {
@@ -74,6 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.action === "deleted") {
                     this.closest(".row").remove();
+
+                    // Update totals
                     updateTotals(data.amount, data.total_amount);
 
                     if (data.cart_empty) {

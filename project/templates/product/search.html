@@ -1,0 +1,28 @@
+{% extends 'nav.html'%}
+{% block content %}
+<form method="get" action="{% url 'search' %}">
+    <input type="text" name="q" placeholder="Search for products..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if products %}
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <p>Price: ${{ product.price }}</p>
+                {% if product.is_sale %}
+                    <p><strong>Sale Price: ${{ product.sale_price }}</strong></p>
+                {% endif %}
+                <p>Category: {{ product.category.name }}</p>
+                <p>Brand: {{ product.brand.name }}</p>
+                
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200" height="200">
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No products found for '{{ query }}'</p>
+{% endif %}
+
+{% endblock %}

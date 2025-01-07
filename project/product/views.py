@@ -140,5 +140,8 @@ class changepassword(View):
     
 
 
+def search(request):
+    query = request.GET.get('q', '')  # Get the search term from the URL query parameters
+    products = Product.objects.filter(name__icontains=query)  # Filter products based on the search term
 
-
+    return render(request, 'product/search.html', {'products': products, 'query': query})
