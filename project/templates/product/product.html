@@ -1,5 +1,5 @@
-{% extends 'nav.html'%}
-{% load static%}
+{% extends 'nav.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +12,7 @@
     {% block content %}
     <style>
         .card-img-fixed {
-            width: 50%; /* Fill the width of the card */
+            width: 60%; /* Fill the width of the card */
             height: 150px; /* Fixed height for uniformity */
             object-fit: cover; /* Ensure aspect ratio is maintained */
             margin: 0 auto;
@@ -25,51 +25,102 @@
 </head>
 <body>
 
-    {% for message in messages%}
+    {% for message in messages %}
         <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
             <strong>{{message}}</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
-    <div data-aos="fade-up" class="container my-4 ">
-        <div class="row g-4">   
-            {% for product in products %}
-                <div class="col-sm-6 col-md-4 col-lg-3"> 
-                    <div class="card text-center border-2 border-white h-100"> 
-                        <div class="card-body d-flex flex-column"> 
-                            <img src="{{ product.image.url }}" class="card-img-top card-img-fixed" alt="{{ product.name }}">
-                            <h2 class="card-title fs-5 mt-3">{{ product.name }}</h2> 
-                            <p class="card-text text-success mb-1">{{ product.category }}</p>
-                            {% if product.is_sale %}
-                            <div class="badge bg-danger text-white position-absolute w-30 h-20" style="top:0.5rem; right: 0.5rem;">
-                                Top Sale
+
+    <!-- Search and Filters Section -->
+    <div class="container mb-4 mt-2">
+        <div class="row">
+            <!-- Filter Options (on the left side) -->
+            <div class="col-md-3">
+                <h5><strong>Look here.....</strong></h5>
+                <form method="GET" action="{% url 'product' %}">
+                    <!-- Category filter -->
+                    <div class="mt-3">
+                        <h6>Category</h6>
+                        {% for category in categories %}
+                            <div>
+                                <input type="radio" id="category-{{category.id}}" name="category" value="{{category.id}}" {% if category.id == request.GET.category %}checked{% endif %}>
+                                <label for="category-{{category.id}}">{{ category.name }}</label>
                             </div>
-                            <div class="d-flex justify-content-center text-warning mb-2">
-                                <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Brand filter -->
+                    <div class="mt-3">
+                        <h6>Brand</h6>
+                        {% for brand in brands %}
+                            <div>
+                                <input type="radio" id="brand-{{brand.id}}" name="brand" value="{{brand.id}}" {% if brand.id == request.GET.brand %}checked{% endif %}>
+                                <label for="brand-{{brand.id}}">{{ brand.name }}</label>
                             </div>
-                            <p class="text-danger fs-5">
-                                <strike>Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}
-                            </p>
-                            {% else %}
-                            <p class="text-danger fs-5">Rs.{{ product.price }}</p>
-                            {% endif %}
-                            
-                            <div class="mt-auto">
-                                <div class="d-flex justify-content-between">
-                                    <a href="{% url 'addtocart' product.id %}" class="flex-grow-1 me-1">
-                                        <button class="btn btn-outline-primary w-100" value="{{product.id}}" id="add-cart">Add to Cart</button>
-                                    </a>
-                                    <a href="{% url 'productview' product.id %}" class="flex-grow-1 ms-1">
-                                        <button class="btn btn-outline-primary w-100">Buy Now</button>
-                                    </a>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Price range filter -->
+                    <div class="mt-3">
+                        <h6>Price</h6>
+                        <div>
+                            <input type="radio" id="price-low" name="price" value="low" {% if request.GET.price == 'low' %}checked{% endif %}>
+                            <label for="price-low">Low to High</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="price-high" name="price" value="high" {% if request.GET.price == 'high' %}checked{% endif %}>
+                            <label for="price-high">High to Low</label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary mt-3" type="submit">Apply</button>
+                </form>
+            </div>
+
+            <!-- Product List Section (on the right side) -->
+            <div class="col-md-9">
+                <div class="row g-4">
+                    {% for product in products %}
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card text-center border-2 border-white h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <img src="{{ product.image.url }}" class="card-img-top card-img-fixed" alt="{{ product.name }}">
+                                    <h2 class="card-title fs-5 mt-3">{{ product.name }}</h2>
+                                    <p class="card-text text-success mb-1">{{ product.category }}</p>
+                                    {% if product.is_sale %}
+                                        <div class="badge bg-danger text-white position-absolute w-30 h-20" style="top:0.5rem; right: 0.5rem;">
+                                            Top Sale
+                                        </div>
+                                        <div class="d-flex justify-content-center text-warning mb-2">
+                                            <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
+                                        </div>
+                                        <p class="text-danger fs-5">
+                                            <strike>Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}
+                                        </p>
+                                    {% else %}
+                                        <p class="text-danger fs-5">Rs.{{ product.price }}</p>
+                                    {% endif %}
+
+                                    <div class="mt-auto">
+                                        <div class="d-flex justify-content-between">
+                                            <a href="{% url 'addtocart' product.id %}" class="flex-grow-1 me-1">
+                                                <button class="btn btn-outline-primary w-100" value="{{product.id}}" id="add-cart">Add to Cart</button>
+                                            </a>
+                                            <a href="{% url 'productview' product.id %}" class="flex-grow-1 ms-1">
+                                                <button class="btn btn-outline-primary">Buy Now</button>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
-            {% endfor%}
+            </div>
         </div>
     </div>
+
     {% endblock %}
 </body>
 </html>

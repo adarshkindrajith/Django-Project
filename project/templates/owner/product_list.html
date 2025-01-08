@@ -1,0 +1,65 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Product List</h1>
+
+    <!-- Search Form -->
+    <div class="row mb-3">
+        <div class="col-md-6 offset-md-3">
+            <form method="GET" action="{% url 'product_list' %}">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search by product name..." name="search" value="{{ request.GET.search }}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-end mb-3">
+        <a href="{% url 'product_add' %}" class="btn btn-primary">Add New Product</a>
+    </div>
+
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Sale Price</th> <!-- Added Sale Price column -->
+                <th scope="col">Category</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
+                    {% else %}
+                    <span>No Image</span>
+                    {% endif %}
+                </td>
+                <td>{{ product.name }}</td>
+                <td>Rs.{{ product.price }}</td>
+                <td>
+                    {% if product.is_sale %}
+                    <span class="text-danger">Rs.{{ product.sale_price }}</span> <!-- Display Sale Price if on sale -->
+                    {% else %}
+                    <span>-</span> <!-- If not on sale, display a hyphen -->
+                    {% endif %}
+                </td>
+                <td>{{ product.category.name }}</td>
+                <td>{{ product.brand.name }}</td>
+                <td>
+                    <a href="{% url 'product_edit' product.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'product_delete' product.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -28,26 +28,16 @@
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
 
-
-
-  
-  <!-- =======================================================
-  * Template Name: Vesperr
-  * Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
-<body  class="index-page">
+<body class="index-page">
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="{% static 'assets/img/logo.png" alt=""> -->
+        <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
         <h1 class="sitename">WearBig</h1>
       </a>
 
@@ -55,12 +45,8 @@
         <ul>
           <li><a href="{% url 'index'%}" class="active">Home<br></a></li>
           <li><a href="{% url 'product'%}">Product</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="{% url 'showcart' %}">Cart <i class="bi bi-cart-fill fs-5"></i>
-          <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{cart|length}}
-          </span>
-          </a></li>   
-          <li><a href="#about">About</a></li>
+          <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{ cart|length }}</span></a></li>   
           <li class="dropdown"><a href="#"><span>Shop</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'product'%}">All Product</a></li>
@@ -68,8 +54,10 @@
               <li><a href="{% url 'category' 'Premium-Models'%}">Premium</a></li>
             </ul>
           </li>
+         
+
           <li><a href="#contact">Contact</a></li>
-          <li class="dropdown text-capitalize"><a href="#"><span>{{user.username}}  {{user.last_name}}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown text-capitalize"><a href="#"><span>{{ user.username }}  {{ user.last_name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'profileview'%}">Profile</a></li>
               <li><a href="">Order</a></li>
@@ -77,24 +65,23 @@
             </ul>
           </li>
         </ul>
+
+        <!-- Search Form in Navbar -->
+        
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
     </div>
   </header>
+
   <div style="height:500vh;">
-    {% block content%}
-    
-    
-    {% endblock%}
-
-   </div> 
-
-    
+    {% block content %}
+    {% endblock %}
+  </div>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  
+
   <!-- Preloader -->
   <div id="preloader"></div>
 
@@ -113,7 +100,7 @@
 
   <script src="{% static 'assets/js/all.min.js'%}"></script>
   <script src="{% static 'assets/js/myscripts.js'%}"></script>
-       
+  
 </body>
 
 </html>

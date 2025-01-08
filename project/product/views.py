@@ -12,8 +12,41 @@ from django.db.models import Q
 
 # Create your views here.
 def product(request):
-    products=Product.objects.all()
-    return render(request,'product/product.html',{'products':products})
+    query = request.GET.get('search', '')
+    category_id = request.GET.get('category')
+    brand_id = request.GET.get('brand')
+    price_filter = request.GET.get('price')
+
+    # Filter by search query
+    products = Product.objects.filter(name__icontains=query)
+
+    # Filter by category if selected
+    if category_id:
+        products = products.filter(category__id=category_id)
+
+    # Filter by brand if selected
+    if brand_id:
+        products = products.filter(brand__id=brand_id)
+
+    # Filter by price if selected
+    if price_filter == 'low':
+        products = products.order_by('price')
+    elif price_filter == 'high':
+        products = products.order_by('-price')
+
+    if not products:
+        messages.info(request, "No products found...")
+    
+    # Get all categories and brands for the filter options
+    categories = Category.objects.all()
+    brands = Brand.objects.all()
+
+    return render(request, 'product/product.html', {
+        'products': products,
+        'categories': categories,
+        'brands': brands,
+    })
+
 
 
 def product_view(request,pk):

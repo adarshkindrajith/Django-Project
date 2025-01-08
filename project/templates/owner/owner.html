@@ -2,39 +2,50 @@
 
 {% block content %}
 <div class="container justify-content-center"><br>
-    <h1 class="text-center">Members</h1>
-    
+    <h1 class="text-center">User Details</h1>
+
+    <!-- Search Form -->
+    <div class="row mb-3">
+        <div class="col-md-6 offset-md-3">
+            <form method="GET" action="{% url 'owner' %}">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="Search by username or email..." name="search" value="{{ request.GET.search }}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Display Logged-In User Details -->
     <div class="text-end">
         <a href="{% url 'logout' %}">
-            <button class="btn btn-success m-2" type="button">Log Out</button>
+            <button class="btn btn-danger m-2" type="button">Log Out</button>
         </a>
     </div>
 
     <!-- Members Table -->
-    <table class="table table-bordered border-primary" id="customers" border="1">
+    <table class="table table-bordered border-primary" id="customers">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th colspan="2" id="mid">Action</th>
+                <th colspan="2">Action</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>   
+                <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <!-- Action Buttons -->
                 <td>
-                    <a href="">
+                    <a href="{% url 'update' user.id %}">
                         <button class="btn btn-primary btn-sm">Update</button>
                     </a>
                 </td>
                 <td>
-                    <a href="">
+                    <a href="{% url 'delete' user.id %}">
                         <button class="btn btn-danger btn-sm">Delete</button>
                     </a>
                 </td>
@@ -42,5 +53,15 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="text-end">
+        <a href="{% url 'createuser' %}">
+            <button class="btn btn-outline-primary">Add New User</button>
+        </a>
+        <a href="{% url 'product_list' %}">
+            <button class="btn btn-outline-primary">Product Details</button>
+        </a>
+    </div>
+
 </div>
 {% endblock %}
