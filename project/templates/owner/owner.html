@@ -17,10 +17,14 @@
     </div>
 
     <!-- Display Logged-In User Details -->
-    <div class="text-end">
-        <a href="{% url 'logout' %}">
-            <button class="btn btn-danger m-2" type="button">Log Out</button>
+    <div class="text-end mb-2">
+        <a href="{% url 'createuser' %}">
+            <button class="btn btn-primary">Add New User</button>
         </a>
+        <a href="{% url 'product_list' %}">
+            <button class="btn btn-primary">Product Details</button>
+        </a>
+        
     </div>
 
     <!-- Members Table -->
@@ -55,11 +59,8 @@
     </table>
 
     <div class="text-end">
-        <a href="{% url 'createuser' %}">
-            <button class="btn btn-outline-primary">Add New User</button>
-        </a>
-        <a href="{% url 'product_list' %}">
-            <button class="btn btn-outline-primary">Product Details</button>
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-danger m-2" type="button">Log Out</button>
         </a>
     </div>
 

@@ -53,15 +53,26 @@
                         </div>
                     </div>
                     <div class="form-check p-4">
-                        <input type="radio" class="form-check-input" name="custid" id="address{{ forloop.counter }}" value="{{ address.id }}">
-                        <label class="form-check-label" for="address{{ forloop.counter }}">Use this address</label>
+                        <strong><input type="radio" class="form-check-input" name="custid" id="address{{ forloop.counter }}" value="{{ address.id }}">
+                        <label class="form-check-label" for="address{{ forloop.counter }}">Use this address</label></strong>
                     </div>
                 {% endfor %}
                 <div class="text-end mt-3">
-                    <button type="submit" class="btn btn-primary">Place Order</button>
+                    <button id="rzp-button1" type="submit" class="btn btn-primary">Place Order</button></a>   
                 </div>
             </form>
         </div>
     </div>
 </div>
 {% endblock %}
+
+
+{% block payment-gateway%}    
+
+<script>
+
+
+</script>
+
+
+{% endblock payment-gateway %}

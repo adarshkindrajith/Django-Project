@@ -12,5 +12,11 @@ urlpatterns = [
     path('deleteaddress/<int:pk>/',views.deleteaddress,name='deleteaddress'),
     path('changepassword/',views.changepassword.as_view(),name='changepassword'),
     path('search/',views.search,name='search'),
+    path('logout/',views.logout_view,name='logout'),
+
+
+    path('add_to_wishlist/<int:product_id>/', views.add_to_wishlist, name='addtowishlist'),
+    path('remove_from_wishlist/<int:product_id>/', views.remove_from_wishlist, name='removefromwishlist'),
+    path('wishlist/', views.wishlist_view, name='wishlist'),
     
 ]

@@ -46,7 +46,8 @@
           <li><a href="{% url 'index'%}" class="active">Home<br></a></li>
           <li><a href="{% url 'product'%}">Product</a></li>
           <li><a href="{% url 'showcart' %}">Cart <i class="bi bi-cart-fill fs-5"></i>
-          <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{ cart|length }}</span></a></li>   
+          <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{ cart|length }}</span></a></li>
+          <li><a href="{% url 'wishlist' %}">My Fav</a></li>   
           <li class="dropdown"><a href="#"><span>Shop</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'product'%}">All Product</a></li>
@@ -61,7 +62,7 @@
             <ul>
               <li><a href="{% url 'profileview'%}">Profile</a></li>
               <li><a href="">Order</a></li>
-              <li><a href="">Logout</a></li>
+              <li><a href="{% url 'logout'%}">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -75,8 +76,8 @@
   </header>
 
   <div style="height:500vh;">
-    {% block content %}
-    {% endblock %}
+    {% block content %} {% endblock %}
+    {% block payment-gateway%}    {% endblock payment-gateway %}
   </div>
 
   <!-- Scroll Top -->

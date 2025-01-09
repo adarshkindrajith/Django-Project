@@ -77,14 +77,13 @@
   <main class="main">
 
     <!-- Hero Section -->
-    <div id="hero" class="hero section bg-black" style="position-absolute; display:flex;justify-content: center;align-items: center;
-    overflow: hidden;">
-      <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-        <div class="video-background w-100 h-100">
-        <video autoplay muted loop id="bg-video" class="container-fluid">
-            <source src="{% static 'videos/1.mp4' %}" type="video/mp4">
+    <div id="hero" class="hero section bg-black" style="position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; height: 100vh;">
+      <div class="video-background w-100 h-100">
+        <video autoplay muted loop id="bg-video" class="w-100 h-100" style="object-fit: cover; position: absolute; top: 0; left: 0;">
+          <source src="{% static 'videos/3.mp4' %}" type="video/mp4">
         </video>
-        </div>
+      </div>
+    </div>
     
      {% comment %} <div class="container">
         <div class="row gy-4 m-auto ">

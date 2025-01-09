@@ -4,6 +4,8 @@ from django.views.generic import View
 from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 
 # Activate mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -97,7 +99,6 @@ class ActivateAccountView(View):
 
 
 
-@csrf_exempt
 def loginn(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -111,7 +112,7 @@ def loginn(request):
                 return render(request, 'owner/owner.html', {'users': users})  # Redirect to the superuser page
             else:
                 login(request, myuser)
-                return render(request, 'profile/profile.html')  # Redirect to a regular user's profile
+                return redirect('product')  # Redirect to a regular user's profile
         else:
             messages.error(request, "Invalid credentials")
             return redirect('loginn')  # Redirect back to the login page
@@ -121,9 +122,11 @@ def loginn(request):
 
 
 
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def logout_view(request):
     logout(request)
-    messages.success(request, "Logged out successfully")
+    messages.success(request, "Logout successfully")
     return redirect('loginn')
 
 

@@ -15,7 +15,9 @@ from django.contrib import messages
 
 
 
-@login_required
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def owner(request):
     query = request.GET.get('search', '')
     if query:
@@ -26,7 +28,9 @@ def owner(request):
     return render(request, 'owner/owner.html', {'users': users})
 
 
-@login_required
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def createuser(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -38,7 +42,9 @@ def createuser(request):
     return render(request, 'owner/createuser.html')
 
 
-@login_required
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def update(request, user_id):
     user = get_object_or_404(User, id=user_id)
 
@@ -58,7 +64,9 @@ def delete(request, user_id):
     return HttpResponseRedirect(reverse('owner'))   
 
 
-@login_required
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def product_list(request):
     query = request.GET.get('search', '')
     if query:
@@ -70,7 +78,9 @@ def product_list(request):
 
 
 
-@login_required
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def product_add(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -106,7 +116,8 @@ def product_add(request):
 
 
 
-@login_required
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def product_edit(request, id):
     product = get_object_or_404(Product, id=id)
     if request.method == 'POST':

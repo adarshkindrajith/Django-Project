@@ -5,8 +5,17 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib import messages
 
+
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 # Create your views here.
 
+
+
+
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def addtocart(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
@@ -21,6 +30,12 @@ def addtocart(request, product_id):
         Cart.objects.create(user=user, product=product, quantity=1) 
     return redirect('product')
 
+
+
+
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def showcart(request):
     user = request.user
     cart = Cart.objects.filter(user=user)
@@ -135,6 +150,9 @@ def remove_cart(request):
 
 
 
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def checkout(request):
     user = request.user
     cart_items = Cart.objects.filter(user=user)
@@ -186,6 +204,9 @@ def checkout(request):
 
 
 
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def order_summary(request):
     user = request.user
     orders = Order.objects.filter(user=user).order_by('-created_at')
