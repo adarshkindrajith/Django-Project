@@ -150,3 +150,12 @@ EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL ='annyan560@gmail.com'
+
+
+
+
+
+
+
+STRIPE_SECRET_KEY = "pk_test_51QfafRRr1Q9ypWDawG0o8q5goE0s1VMn8gkz14Ht3E8DmpAhER6fRw8aDQ2nG47zpjqoGMcJZmRxfde4LiL5rpGm00g9t8ADTd"
+STRIPE_PUBLIC_KEY = "sk_test_51QfafRRr1Q9ypWDaKs7qs4KSIU7cTbQ9ikO5fMML87Me72norxm18b4eM5TSXtrypJZUPfK4QajMrVywo7hF66fl00ghjR9Ah3"

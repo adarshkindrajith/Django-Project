@@ -156,8 +156,7 @@ def remove_cart(request):
 def checkout(request):
     user = request.user
     cart_items = Cart.objects.filter(user=user)
-    
-    # Calculate total amount with the correct price (sale_price or regular price)
+
     total_amount = sum(
         (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
         for item in cart_items
@@ -179,20 +178,10 @@ def checkout(request):
             messages.error(request, "Invalid address selected.")
             return redirect('checkout')
 
-        # Save the order
-        for item in cart_items:
-            Order.objects.create(
-                user=user,
-                product=item.product,
-                quantity=item.quantity,
-                address=address,
-                total_amount=total_with_shipping  # Correctly passing the total with shipping
-            )
+        # Store address ID in session to use in stripe_payment
+        request.session['address_id'] = address.id
 
-        # Clear the cart after order placement
-        cart_items.delete()
-        messages.success(request, "Order placed successfully!")
-        return redirect('order_summary')
+        return redirect('stripe_payment')
 
     context = {
         'cart_items': cart_items,
@@ -203,15 +192,86 @@ def checkout(request):
 
 
 
-
-
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def order_summary(request):
     user = request.user
-    orders = Order.objects.filter(user=user).order_by('-created_at')
+    orders = Order.objects.filter(user=user).order_by('-date')
 
     context = {
         'orders': orders
     }
     return render(request, 'cart/order_summary.html', context)
+
+
+
+
+
+
+
+
+import stripe
+from django.conf import settings
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+def stripe_payment(request):
+    user = request.user
+    cart_items = Cart.objects.filter(user=user)
+    
+    # Calculate total amount without decimals
+    total_amount = sum(
+        (item.product.sale_price if item.product.is_sale and item.product.sale_price else item.product.price) * item.quantity
+        for item in cart_items
+    )
+    shipping_cost = 40
+    total_with_shipping = total_amount + shipping_cost  # Total as an integer
+    stripe_amount = total_with_shipping * 100  # Stripe requires cents as an integer
+
+    address_id = request.session.get('address_id')
+    if not address_id:
+        messages.error(request, "Shipping address not found. Please try again.")
+        return redirect('checkout')
+
+    address = Customer.objects.get(id=address_id)
+
+    if request.method == "POST":
+        token = request.POST.get("stripeToken")
+        try:
+            # Create Stripe charge
+            charge = stripe.Charge.create(
+                amount=stripe_amount,
+                currency="inr",
+                description=f"Order by {user.username}",
+                source=token,
+            )
+
+            # Place orders and clear the cart
+            for item in cart_items:
+                Order.objects.create(
+                    user=user,
+                    product=item.product,
+                    quantity=item.quantity,
+                    customer=address,
+                    address=f"{address.location}, {address.city}, {address.pincode}",
+                    phone=address.phone,
+                    total_amount=total_with_shipping // len(cart_items),  # Divide total among cart items
+                    payment_status="Paid",
+                )
+
+            cart_items.delete()
+            request.session.pop('address_id', None)  # Clear session data
+            messages.success(request, "Payment successful! Order placed.")
+            return redirect('order_summary')
+
+        except stripe.error.CardError as e:
+            messages.error(request, f"Payment failed: {e.error.message}")
+            return redirect('checkout')
+
+    context = {
+        'cart_items': cart_items,
+        'total_amount': total_with_shipping,  # Total displayed as integer
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+    }
+    return render(request, 'cart/stripe_payment.html', context)

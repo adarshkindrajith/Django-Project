@@ -52,7 +52,7 @@ class Product(models.Model):
 
 class Payment(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    amount=models.FloatField()
+    amount=models.IntegerField()
     razorpay_order_id=models.CharField(max_length=100,blank=True,null=True)
     razorpay_payment_status=models.CharField(max_length=100,blank=True,null=True)
     razorpay_payment_id=models.CharField(max_length=100,blank=True,null=True)
@@ -76,22 +76,25 @@ STATUS_CHOICES=(
 
 
 class Order(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    customer=models.ForeignKey(Customer,on_delete=models.CASCADE)
-    quantity= models.IntegerField(default=1)
-    address=models.CharField(max_length=100,default='',blank=True)
-    phone=models.CharField(max_length=20,default='',blank=True)
-    date=models.DateField(default=datetime.datetime.today)
-    status=models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
-    payment=models.ForeignKey(Payment,on_delete=models.CASCADE,default="")
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    address = models.CharField(max_length=100, default='', blank=True)
+    phone = models.CharField(max_length=20, default='', blank=True)
+    date = models.DateField(default=datetime.datetime.today)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    payment = models.ForeignKey(
+        'Payment',  # Reference the Payment model
+        on_delete=models.CASCADE,
+        null=True,  # Allow null values
+        blank=True  # Allow blank values in forms
+    )
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return self.product
-
-
-
+        return f"Order #{self.id} - {self.product.name}"
 
 
 

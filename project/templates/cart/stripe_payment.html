@@ -1,0 +1,21 @@
+{% extends 'nav.html' %}
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">Stripe Payment</h2>
+    <p>Total Amount: Rs.{{ total_amount }}</p>
+    <form action="{% url 'stripe_payment' %}" method="POST" id="payment-form">
+        {% csrf_token %}
+        <script
+            src="https://checkout.stripe.com/checkout.js"
+            class="stripe-button"
+            data-key="{{ stripe_public_key }}"
+            data-amount="{{ total_amount|floatformat:0}}00"    
+            data-name="WEAR-BIG"
+            data-description="Order Payment"
+            data-image="https://img.freepik.com/premium-vector/luxury-watch-brand-logo_628554-9.jpg"
+            data-currency="inr"
+            data-locale="auto"
+        ></script>
+    </form>
+</div>
+{% endblock %}
