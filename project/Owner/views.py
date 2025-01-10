@@ -29,6 +29,9 @@ def owner(request):
 
 
 
+
+
+
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def createuser(request):
@@ -36,10 +39,22 @@ def createuser(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-        User.objects.create_user(username=username, email=email, password=password)
-        return HttpResponseRedirect(reverse('owner'))
+
+        # Check if the username or email already exists
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists. Please choose a different one.')
+        elif User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists. Please choose a different one.')
+        else:
+            # Create the new user if the username and email are unique
+            User.objects.create_user(username=username, email=email, password=password)
+            messages.success(request, 'User created successfully!')
+            return HttpResponseRedirect(reverse('owner'))
 
     return render(request, 'owner/createuser.html')
+
+
+
 
 
 
@@ -55,14 +70,6 @@ def update(request, user_id):
         return HttpResponseRedirect(reverse('owner'))
 
     return render(request, 'owner/update.html', {'user': user})
-
-
-
-def delete(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    user.delete()
-    return HttpResponseRedirect(reverse('owner'))   
-
 
 
 @login_required(login_url='loginn')
@@ -141,12 +148,29 @@ def product_edit(request, id):
 
 
 
-
-
-
-
 def product_delete(request, id):
     product = get_object_or_404(Product, id=id)
     product.delete()
     messages.success(request, "Product deleted successfully!")
     return redirect('product_list')
+
+
+def block_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    
+    # Check if the user is an admin, if so, prevent blocking
+    if user.is_staff:
+        return redirect('owner')
+    
+    # Block the user if not an admin
+    user.is_active = False
+    user.save()
+    return redirect('owner')
+
+def unblock_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_active = True
+    user.save()
+    return redirect('owner')
+
+

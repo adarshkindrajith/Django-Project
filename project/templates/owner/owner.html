@@ -24,16 +24,20 @@
         <a href="{% url 'product_list' %}">
             <button class="btn btn-primary">Product Details</button>
         </a>
-        
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-danger m-2" type="button">Log Out</button>
+        </a>
+       
     </div>
 
     <!-- Members Table -->
     <table class="table table-bordered border-primary" id="customers">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th>Id</th>
                 <th>Username</th>
                 <th>Email</th>
+                <th>Status</th>
                 <th colspan="2">Action</th>
             </tr>
         </thead>
@@ -44,25 +48,34 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>
+                    {% if user.is_active %}
+                        Active
+                    {% else %}
+                        <p class="text-danger">Blocked</p>
+                    {% endif %}
+                </td>
+                <td>
                     <a href="{% url 'update' user.id %}">
                         <button class="btn btn-primary btn-sm">Update</button>
                     </a>
                 </td>
                 <td>
-                    <a href="{% url 'delete' user.id %}">
-                        <button class="btn btn-danger btn-sm">Delete</button>
+                    {% if user.is_active %}
+                    <a href="{% url 'block_user' user.id %}">
+                        <button class="btn btn-success btn-sm">Block</button>
                     </a>
+                    {% else %}
+                    <a href="{% url 'unblock_user' user.id %}">
+                        <button class="btn btn-danger btn-sm">Unblock</button>
+                    </a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <div class="text-end">
-        <a href="{% url 'logout' %}">
-            <button class="btn btn-danger m-2" type="button">Log Out</button>
-        </a>
-    </div>
+    
 
 </div>
 {% endblock %}

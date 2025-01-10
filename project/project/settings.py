@@ -149,3 +149,4 @@ EMAIL_HOST_PASSWORD='zova xplt scsf xmxm'
 EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL ='annyan560@gmail.com'

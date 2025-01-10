@@ -130,10 +130,7 @@ def logout_view(request):
     return redirect('loginn')
 
 
-class reset(View):
-    def get(self,request):
-        return render(request,'log/reset.html')
-    
+
 
 
 

@@ -26,8 +26,8 @@
                     {% csrf_token %}
                     <h1 class="text-white text-center mb-4">Log In</h1>
                     {% for message in messages %}
-                    <div class="alert bg-black border-black alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <strong class="text-white">{{ message }}</strong>
+                    <div class="alert bg-black text-white border-black alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
                         <button type="button" class="btn-close bg-dark" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {% endfor %}
@@ -42,7 +42,7 @@
                         <label class="form-check-label text-white" for="showPassword">Show Password</label>
                     </div>
                     <p class="text-white text-center">Are you a new user? <a href="{% url 'signup' %}" class="text-primary">Sign Up</a></p>
-                    <p class="text-white text-center">Forgot Password? <a href="{% url 'resetview' %}" class="text-primary">Reset</a></p>
+                    <p class="text-white text-center">Forgot Password? <a href="{% url 'password_reset' %}" class="text-primary">Reset</a></p>
                     <div class="text-center">
                         <button class="btn btn-primary text-white mt-2" style="width: 200px; border-radius: 15px;" type="submit">Submit</button>
                     </div>
