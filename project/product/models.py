@@ -84,7 +84,7 @@ class Order(models.Model):
     address = models.CharField(max_length=100, default='', blank=True)
     phone = models.CharField(max_length=20, default='', blank=True)
     date = models.DateField(default=datetime.datetime.today)
-    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    payment_status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
     payment = models.ForeignKey(
         'Payment',  # Reference the Payment model
         on_delete=models.CASCADE,
@@ -94,8 +94,7 @@ class Order(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return f"Order #{self.id} - {self.product.name}"
-
+        return f"Order #{self.id} by {self.user.username}"
 
 
 class Wishlist(models.Model):

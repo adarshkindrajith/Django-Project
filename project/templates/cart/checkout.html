@@ -57,9 +57,19 @@
                         <label class="form-check-label" for="address{{ forloop.counter }}">Use this address</label>
                     </div>
                 {% endfor %}
-                <div class="text-end mt-3">
-                    <button type="submit" class="btn btn-primary">Place Order</button>
-                </div>
+                <h4 class="text-center">Payment Method</h4>
+                    <hr>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="payment_method" id="cod" value="cod" checked>
+                        <label class="form-check-label" for="cod">Cash on Delivery</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="payment_method" id="online" value="online">
+                        <label class="form-check-label" for="online">Online Payment</label>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+                    </div>
             </form>
         </div>
     </div>

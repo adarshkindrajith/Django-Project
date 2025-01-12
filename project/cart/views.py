@@ -168,6 +168,8 @@ def checkout(request):
 
     if request.method == "POST":
         address_id = request.POST.get('custid')
+        payment_method = request.POST.get('payment_method')
+
         if not address_id:
             messages.error(request, "Please select a shipping address.")
             return redirect('checkout')
@@ -178,10 +180,31 @@ def checkout(request):
             messages.error(request, "Invalid address selected.")
             return redirect('checkout')
 
-        # Store address ID in session to use in stripe_payment
-        request.session['address_id'] = address.id
+        if payment_method == "cod":
+            # Process COD order
+            for item in cart_items:
+                Order.objects.create(
+                    user=user,
+                    product=item.product,
+                    quantity=item.quantity,
+                    customer=address,
+                    address=f"{address.location}, {address.city}, {address.pincode}",
+                    phone=address.phone,
+                    total_amount=total_with_shipping // len(cart_items),  # Divide total among cart items
+                    payment_status="Pending (COD)",
+                )
+            cart_items.delete()
+            messages.success(request, "Order placed successfully with Cash on Delivery.")
+            return redirect('order_summary')
 
-        return redirect('stripe_payment')
+        elif payment_method == "online":
+            # Store address ID in session for online payment
+            request.session['address_id'] = address.id
+            return redirect('stripe_payment')
+
+        else:
+            messages.error(request, "Invalid payment method selected.")
+            return redirect('checkout')
 
     context = {
         'cart_items': cart_items,
@@ -189,6 +212,7 @@ def checkout(request):
         'add': addresses,
     }
     return render(request, 'cart/checkout.html', context)
+
 
 
 
