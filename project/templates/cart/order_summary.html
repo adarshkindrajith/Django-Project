@@ -1,26 +1,44 @@
 {% extends 'nav.html' %}
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">Order Summary</h2>
+    <h2 class="text-center my-4"><strong>Order Summary</strong></h2>
     {% if orders %}
         <div class="row">
             {% for order in orders %}
                 <div class="col-md-6 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5>Order ID: {{ order.id }}</h5>
-                            <p>Product: {{ order.product.name }}</p>
-                            <p>Quantity: {{ order.quantity }}</p>
-                            <p>Total: Rs.{{ order.total_amount }}</p>
-                            <p>Address: {{ order.address.location }}, {{ order.address.city }}, {{ order.address.pincode }}</p>
-                            <p>Ordered on: {{ order.created_at }}</p>
+                            <div class="d-flex align-items-start">
+                                <div>
+                                    <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}" class="img-fluid" style="width: 150px; height: auto; border-radius: 8px;">
+                                </div>
+                                <div class="ms-3 flex-grow-1">
+                                    <h5>Order ID: {{ order.id }}</h5>
+                                    <p>Product: {{ order.product.name }}</p>
+                                    <p>Quantity: {{ order.quantity }}</p>
+                                    <p>Total: Rs.{{ order.total_amount }}</p>
+                                    <p>Address: {{ order.address }}</p>
+                                    <p>Ordered on: {{ order.date|date:"d M Y, H:i A" }}</p>
+                                    <p>Order Status: <strong>{{ order.order_status }}</strong></p>
+                                    <!-- Progress Bar -->
+                                    <div class="progress mt-3">
+                                        <div class="progress-bar {% if order.order_status == 'Deliverd' %}bg-success{% elif order.order_status == 'Shipped' %}bg-info{% elif order.order_status == 'On the way' %}bg-warning{% elif order.order_status == 'Cancelled' %}bg-danger{% else %}bg-secondary{% endif %}" 
+                                             role="progressbar" 
+                                             style="width: {% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Deliverd' %}100{% elif order.order_status == 'Cancelled' %}100{% else %}0{% endif %}%;" 
+                                             aria-valuenow="{% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Deliverd' %}100{% else %}0{% endif %}" 
+                                             aria-valuemin="0" aria-valuemax="100">
+                                             {{ order.order_status }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <h4 class="text-center">You have no orders yet.</h4>
+        <h4 class="text-center">No recent orders found.</h4>
     {% endif %}
 </div>
 {% endblock %}

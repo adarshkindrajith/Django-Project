@@ -6,9 +6,9 @@ from django.views.decorators.cache import cache_control
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.http import HttpResponse
 
-
-from product.models import Product, Category, Brand
+from product.models import Product, Category, Brand,Order
 from django.contrib import messages
 # Create your views here.
 
@@ -52,9 +52,6 @@ def createuser(request):
             return HttpResponseRedirect(reverse('owner'))
 
     return render(request, 'owner/createuser.html')
-
-
-
 
 
 
@@ -174,3 +171,36 @@ def unblock_user(request, user_id):
     return redirect('owner')
 
 
+
+
+
+
+
+
+
+
+
+
+
+@login_required(login_url='loginn')
+def orders(request):
+    orders = Order.objects.all()
+    STATUS_CHOICES = Order._meta.get_field('order_status').choices
+    context = {
+        'orders': orders,
+        'STATUS_CHOICES': STATUS_CHOICES,
+    }
+    return render(request, 'owner/orders.html', context)
+
+
+
+
+
+def update_order_status(request, order_id):
+    if request.method == 'POST':
+        order = get_object_or_404(Order, id=order_id)
+        new_status = request.POST.get('order_status')
+        if new_status:
+            order.order_status = new_status
+            order.save()
+        return redirect('orders')

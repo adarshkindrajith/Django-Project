@@ -1,0 +1,56 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+  <h1 class="text-center my-4"><strong>Order Details</strong></h1>
+  <div class="position-relative mx-3">
+    <div class="text-end mb-2">
+        <a href="{% url 'owner' %}">
+            <button class="btn btn-outline-primary ">Back to Owner</button>
+        </a>
+    </div>
+    
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr class="text-center">
+          <th>Order ID</th>
+          <th>Product Name</th>
+          <th>Customer Name</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Quantity</th>
+          <th>Total Amount</th>
+          <th>Order Status</th>
+          <th>Payment Status</th>
+          <th>Update Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td class="text-center">{{ order.id }}</td>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+            <td>{{ order.address }}</td>
+            <td>{{ order.phone }}</td>
+            <td class="text-center">{{ order.quantity }}</td>
+            <td class="text-right">{{ order.total_amount }}</td>
+            <td class="text-center">{{ order.order_status }}</td>
+            <td class="text-center text-danger">{{ order.payment.stripe_payment_status }}</td>
+            <td class="text-center">
+              <!-- Form to update order status -->
+              <form method="POST" action="{% url 'update_order_status' order.id %}">
+                {% csrf_token %}
+                <select name="order_status" class="form-select form-select-sm">
+                  {% for status, label in STATUS_CHOICES %}
+                    <option value="{{ status }}" {% if order.order_status == status %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm mt-2">Update Status</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

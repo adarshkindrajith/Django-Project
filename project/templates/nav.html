@@ -61,7 +61,7 @@
           <li class="dropdown text-capitalize"><a href="#"><span>{{ user.username }}  {{ user.last_name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'profileview'%}">Profile</a></li>
-              <li><a href="">Order</a></li>
+              <li><a href="{% url 'order_summary'%}">Order</a></li>
               <li><a href="{% url 'logout'%}">Logout</a></li>
             </ul>
           </li>

@@ -49,28 +49,26 @@ class Product(models.Model):
         return self.name
 
 
-
 class Payment(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    amount=models.IntegerField()
-    razorpay_order_id=models.CharField(max_length=100,blank=True,null=True)
-    razorpay_payment_status=models.CharField(max_length=100,blank=True,null=True)
-    razorpay_payment_id=models.CharField(max_length=100,blank=True,null=True)
-    paid=models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    stripe_payment_intent_id = models.CharField(max_length=100, blank=True, null=True)
+    stripe_payment_status = models.CharField(max_length=100, choices=[("Pending", "Pending"), ("Paid", "Paid")], default="Pending",)
+    paid = models.BooleanField(default=False)
 
-
+    def __str__(self):
+        return f'{self.stripe_payment_status}'
 
 
 
 
 
 STATUS_CHOICES=(
-    ('Accepted','Accepted'),
+    ('shipped','shipped'),
     ('Packed','Packed'),
-    ('On the way','on the way'),
+    ('On the way','On the way'),
     ('Deliverd','Deliverd '),
-    ('Cancel','Cancel'),
-    ('Pending','Pending'),
+    ('Cancelled','Cancelled'),
 )
 
 
@@ -83,8 +81,8 @@ class Order(models.Model):
     quantity = models.IntegerField(default=1)
     address = models.CharField(max_length=100, default='', blank=True)
     phone = models.CharField(max_length=20, default='', blank=True)
-    date = models.DateField(default=datetime.datetime.today)
-    payment_status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    date = models.DateTimeField(auto_now_add=True)
+    order_status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Placed')
     payment = models.ForeignKey(
         'Payment',  # Reference the Payment model
         on_delete=models.CASCADE,
