@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import login,logout
 from django.views.generic import View
 from django.db.models import Q
+from .models import CarouselImage
 
 
 from .models import Wishlist
@@ -41,8 +42,10 @@ def product(request):
     # Get all categories and brands for the filter options
     categories = Category.objects.all()
     brands = Brand.objects.all()
+    carousel_images = CarouselImage.objects.all()
 
     return render(request, 'product/product.html', {
+        'carousel_images': carousel_images,
         'products': products,
         'categories': categories,
         'brands': brands,
@@ -165,7 +168,7 @@ def deleteaddress(request, pk):
     if request.method == "POST":
         add.delete()
         messages.success(request, "Address deleted successfully.")
-        return redirect('address')  # Redirect to the address page
+        return redirect('address')  #Redirect to the address page
     return redirect('address')
 
 

@@ -105,3 +105,11 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name}'
+
+
+
+
+
+
+class CarouselImage(models.Model):
+    image = models.ImageField(upload_to='carousel_images/')

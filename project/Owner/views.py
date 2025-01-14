@@ -24,8 +24,8 @@ def owner(request):
         users = User.objects.filter(username__icontains=query) | User.objects.filter(email__icontains=query)
     else:
         users = User.objects.all()
-    
-    return render(request, 'owner/owner.html', {'users': users})
+
+    return render(request, 'owner/owner.html', {'users': users,})
 
 
 
@@ -204,3 +204,7 @@ def update_order_status(request, order_id):
             order.order_status = new_status
             order.save()
         return redirect('orders')
+    
+
+
+

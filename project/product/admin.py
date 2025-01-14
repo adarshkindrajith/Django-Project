@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Category,Customer,Order,Brand
-
+from .models import CarouselImage
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Brand)
@@ -18,4 +18,6 @@ class CustomerModelAdmin(admin.ModelAdmin):
 class OrderModelAdmin(admin.ModelAdmin):
     list_display=[ 'id','user','customer','product','quantity','date','phone','address','order_status','payment' ]
 
-
+@admin.register(CarouselImage)
+class CarouselImageAdmin(admin.ModelAdmin):
+    list_display = ['image']

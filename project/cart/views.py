@@ -34,6 +34,9 @@ def addtocart(request, product_id):
 
 
 
+
+
+
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def showcart(request):

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container justify-content-center"><br>
-    <h1 class="text-center">User Details</h1>
+    <h1 class="text-center"><strong>User Details</strong></h1>
 
     <!-- Search Form -->
     <div class="row mb-3">
@@ -18,14 +18,17 @@
 
     <!-- Display Logged-In User Details -->
     <div class="text-end mb-2">
+        <a href="{% url 'request_list' %}">
+            <button class="btn btn-outline-primary">Request From Users</button>
+        </a>
         <a href="{% url 'createuser' %}">
-            <button class="btn btn-primary">Add New User</button>
+            <button class="btn btn-outline-primary">Add New User</button>
         </a>
         <a href="{% url 'product_list' %}">
-            <button class="btn btn-primary">Product Details</button>
+            <button class="btn btn-outline-primary">Product Details</button>
         </a>
-                <a href="{% url 'orders' %}">
-            <button class="btn btn-primary">Order Details</button>
+        <a href="{% url 'orders' %}">
+            <button class="btn btn-outline-primary">Order Details</button>
         </a>
         <a href="{% url 'logout' %}">
             <button class="btn btn-danger m-2" type="button">Log Out</button>
@@ -77,8 +80,5 @@
             {% endfor %}
         </tbody>
     </table>
-
-    
-
 </div>
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Request List</h1>
+    <div class="text-end mb-2">
+        <a href="{% url 'owner' %}">
+            <button class="btn btn-outline-primary ">Back to Main</button>
+        </a>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Message</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in requests %}
+            <tr>
+                <td>{{ req.id }}</td>
+                <td>{{ req.username }}</td>
+                <td>{{ req.message }}</td>
+                <td>{{ req.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

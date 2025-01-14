@@ -41,8 +41,12 @@
                         <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePasswordVisibility()">
                         <label class="form-check-label text-white" for="showPassword">Show Password</label>
                     </div>
-                    <p class="text-white text-center">Are you a new user? <a href="{% url 'signup' %}" class="text-primary">Sign Up</a></p>
-                    <p class="text-white text-center">Forgot Password? <a href="{% url 'password_reset' %}" class="text-primary">Reset</a></p>
+                    <p class="text-white text-center d-flex justify-content-center align-items-center gap-3">
+                        <span>Are you a new user? <a href="{% url 'signup' %}" class="text-primary">Sign Up</a></span>
+                        <span>|</span>
+                        <span>Forgot Password? <a href="{% url 'password_reset' %}" class="text-primary">Reset</a></span>
+                    </p>
+                    <p class="text-white text-center">Request to <a href="{% url 'process_request' %}" class="text-primary">Unblock</a></p>
                     <div class="text-center">
                         <button class="btn btn-primary text-white mt-2" style="width: 200px; border-radius: 15px;" type="submit">Submit</button>
                     </div>

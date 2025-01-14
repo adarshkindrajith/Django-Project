@@ -23,6 +23,7 @@ from django.conf import settings
 
 
 import threading
+from .models import RequestMessage
 
 
 
@@ -130,6 +131,26 @@ def logout_view(request):
     return redirect('loginn')
 
 
+
+def process_request(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        message = request.POST.get('message')
+
+        RequestMessage.objects.create(username=username, message=message)
+        # Redirect to the owner page
+        return redirect('loginn')
+
+    return render(request, 'log/request.html')
+
+
+
+
+@login_required(login_url='loginn')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+def request_list(request):
+    requests = RequestMessage.objects.all().order_by('-created_at')
+    return render(request, 'owner/request_list.html', {'requests': requests})
 
 
 
