@@ -16,7 +16,7 @@ class CustomerModelAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderModelAdmin(admin.ModelAdmin):
-    list_display=[ 'id','user','customer','product','quantity','date','phone','address','order_status','payment' ]
+    list_display=[ 'id','user','customer','product','quantity','date','phone','address','order_status','cancellation_requested','payment' ]
 
 @admin.register(CarouselImage)
 class CarouselImageAdmin(admin.ModelAdmin):

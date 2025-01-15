@@ -15,5 +15,7 @@ urlpatterns = [
 
     path('owner/orders/', views.orders, name='orders'),
     path('orders/update/<int:order_id>/', views.update_order_status, name='update_order_status'),
+
+    path('resolve-cancellation/<int:order_id>/', views.resolve_cancellation, name='resolve_cancellation'),
     
 ]

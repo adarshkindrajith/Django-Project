@@ -91,8 +91,16 @@ class Order(models.Model):
     )
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    cancellation_requested = models.BooleanField(default=False)
+
+    def request_cancellation(self):
+        self.cancellation_requested = True
+        self.save()
+
     def __str__(self):
         return f"Order #{self.id} by {self.user.username}"
+
+
 
 
 class Wishlist(models.Model):

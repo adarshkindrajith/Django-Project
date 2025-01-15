@@ -19,13 +19,36 @@
                                     <p>Total: Rs.{{ order.total_amount }}</p>
                                     <p>Address: {{ order.address }}</p>
                                     <p>Ordered on: {{ order.date|date:"d M Y, H:i A" }}</p>
+                                    <p>Payment Status: {{ order.payment.stripe_payment_status }}</p>
                                     <p>Order Status: <strong>{{ order.order_status }}</strong></p>
+
+                                    <!-- Display messages specific to this order -->
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            {% if "Order ID {{ order.id }}" in message %}
+                                                <div class="alert alert-{{ message.tags }}" role="alert">
+                                                    {{ message }}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <!-- Cancellation logic -->
+                                    {% if not order.cancellation_requested %}
+                                        <form action="{% url 'request_cancellation' order.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </form>
+                                    {% else %}
+                                        <p class="text-success">Cancellation request activated</p>
+                                    {% endif %}
+
                                     <!-- Progress Bar -->
                                     <div class="progress mt-3">
-                                        <div class="progress-bar {% if order.order_status == 'Deliverd' %}bg-success{% elif order.order_status == 'Shipped' %}bg-info{% elif order.order_status == 'On the way' %}bg-warning{% elif order.order_status == 'Cancelled' %}bg-danger{% else %}bg-secondary{% endif %}" 
+                                        <div class="progress-bar {% if order.order_status == 'Delivered' %}bg-success{% elif order.order_status == 'Shipped' %}bg-dark{% elif order.order_status == 'On the way' %}bg-warning{% elif order.order_status == 'Cancelled' %}bg-danger{% else %}bg-secondary{% endif %}" 
                                              role="progressbar" 
-                                             style="width: {% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Deliverd' %}100{% elif order.order_status == 'Cancelled' %}100{% else %}0{% endif %}%;" 
-                                             aria-valuenow="{% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Deliverd' %}100{% else %}0{% endif %}" 
+                                             style="width: {% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Delivered' %}100{% elif order.order_status == 'Cancelled' %}100{% else %}0{% endif %}%;" 
+                                             aria-valuenow="{% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Delivered' %}100{% else %}0{% endif %}" 
                                              aria-valuemin="0" aria-valuemax="100">
                                              {{ order.order_status }}
                                         </div>

@@ -9,4 +9,6 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('order_summary/', views.order_summary, name='order_summary'),
     path('stripe_payment/', views.stripe_payment, name='stripe_payment'),
+    path('order/cancel/<int:order_id>/', views.request_cancellation, name='request_cancellation'),
+    
 ]

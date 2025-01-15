@@ -208,3 +208,19 @@ def update_order_status(request, order_id):
 
 
 
+
+@login_required(login_url='loginn')
+def resolve_cancellation(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if order.cancellation_requested:
+        order.cancellation_requested = False  # Mark the request as resolved
+        order.save()
+        messages.success(request, f"Cancellation request for Order ID {order_id} has been resolved.")
+    else:
+        messages.error(request, f"No active cancellation request for Order ID {order_id}.")
+    return redirect('orders')
+
+
+
+
+
