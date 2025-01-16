@@ -53,7 +53,7 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.IntegerField()
     stripe_payment_intent_id = models.CharField(max_length=100, blank=True, null=True)
-    stripe_payment_status = models.CharField(max_length=100, choices=[("Pending", "Pending"), ("Paid", "Paid")], default="Pending",)
+    stripe_payment_status = models.CharField(max_length=100, choices=[("Payment Initiated", "Payment Initiated")], default="Pending",)
     paid = models.BooleanField(default=False)
 
     def __str__(self):

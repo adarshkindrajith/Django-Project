@@ -1,41 +1,88 @@
 {% extends 'nav.html' %}
 {% block content %}
-<div class="container">
-    <h2 class="text-center my-4">Stripe Payment</h2>
-    <p>Total Amount: Rs.{{ total_amount }}</p>
-    <div id="card-element" class="my-4"></div>
-    <div id="card-errors" role="alert" style="color: red;"></div>
-    <form action="{% url 'stripe_payment' %}" method="POST" id="payment-form">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary mt-3">Pay Rs.{{ total_amount }}</button>
-    </form>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Stripe Payment</h2>
+            <div class="card shadow-sm p-4">
+                <h1 class="text-center">WearBig</h1>
+                <p class="text-center"><strong>Total Amount: Rs.{{ total_amount }}</strong></p>
+                <form action="{% url 'stripe_payment' %}" method="POST" id="payment-form">
+                    {% csrf_token %}
+                    <div class="form-group my-3">
+                        <label for="card-element" class="form-label">Credit or Debit Card</label>
+                        <div id="card-element" class="form-control">
+                            <!-- Stripe Elements will be inserted here -->
+                        </div>
+                        <div id="card-errors" class="text-danger mt-2" role="alert"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3" id="submit-button">
+                        <span id="button-text">Pay Rs.{{ total_amount }}</span>
+                        <div id="spinner" class="spinner-border spinner-border-sm ms-2" style="display: none;" role="status"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    const stripe = Stripe('{{ stripe_public_key }}'); // Use your publishable key
+    const stripe = Stripe('{{ stripe_public_key }}'); // Use your Stripe publishable key
     const elements = stripe.elements();
-    const card = elements.create('card'); // Create the card element
-    card.mount('#card-element'); // Mount the card element
+    const card = elements.create('card', {
+        style: {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Roboto", sans-serif',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4',
+                },
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a',
+            },
+        },
+    });
+
+    // Mount the card element into the DOM
+    card.mount('#card-element');
 
     // Handle form submission
     const form = document.getElementById('payment-form');
+    const button = document.getElementById('submit-button');
+    const spinner = document.getElementById('spinner');
+    const buttonText = document.getElementById('button-text');
+
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        // Disable button and show spinner
+        button.disabled = true;
+        spinner.style.display = 'inline-block';
+        buttonText.textContent = 'Processing...';
+
         const { paymentMethod, error } = await stripe.createPaymentMethod({
             type: 'card',
             card: card,
         });
 
         if (error) {
+            // Display error and re-enable button
             document.getElementById('card-errors').textContent = error.message;
+            button.disabled = false;
+            spinner.style.display = 'none';
+            buttonText.textContent = 'Pay Rs.{{ total_amount }}';
         } else {
-            // Append payment method ID to form and submit
+            // Add payment method ID to the form and submit
             const hiddenInput = document.createElement('input');
             hiddenInput.setAttribute('type', 'hidden');
             hiddenInput.setAttribute('name', 'payment_method_id');
             hiddenInput.setAttribute('value', paymentMethod.id);
             form.appendChild(hiddenInput);
+
             form.submit();
         }
     });

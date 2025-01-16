@@ -63,7 +63,7 @@
 --------------------------------------------------------------*/
 body {
   color: var(--default-color);
-  background-color: var(--background-color);
+  background-color: black;
   font-family: var(--default-font);
 }
 

@@ -25,6 +25,7 @@ def addtocart(request, product_id):
     if cart_item:
         cart_item.quantity += 1
         cart_item.save()
+        messages.success(request,"Product added to Cart ")
     else:
 
         Cart.objects.create(user=user, product=product, quantity=1) 
@@ -207,7 +208,7 @@ def checkout(request):
 
             cart_items.delete()
             messages.success(request, "Order placed successfully with Cash on Delivery.")
-            return redirect('order_summary')
+            return redirect('orderdone')
 
         elif payment_method == "online":
             # Store address ID in session for online payment
@@ -328,7 +329,7 @@ def stripe_payment(request):
             cart_items.delete()
             request.session.pop('address_id', None)  # Clear session data
             messages.success(request, "Payment successful! Order placed.")
-            return redirect('order_summary')
+            return redirect('orderdone')
 
         except stripe.error.CardError as e:
             # Payment failed; mark payment as pending
@@ -347,3 +348,10 @@ def stripe_payment(request):
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
     }
     return render(request, 'cart/stripe_payment.html', context)
+
+
+
+
+@login_required(login_url='loginn')
+def orderdone(request):
+    return render(request,"cart/orderdone.html")
