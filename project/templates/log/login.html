@@ -24,7 +24,7 @@
             <div class="col-md-6">
                 <form data-aos="fade-up" action="{% url 'loginn' %}" method="POST">
                     {% csrf_token %}
-                    <h1 class="text-white text-center mb-4">Log In</h1>
+                    <h1 class="text-white text-center mb-4">Sign In</h1>
                     {% for message in messages %}
                     <div class="alert bg-black text-white border-black alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                         {{ message }}

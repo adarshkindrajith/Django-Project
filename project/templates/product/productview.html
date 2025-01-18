@@ -9,58 +9,122 @@
     .img-fluid:hover {
         transform: scale(1.2);
     }
-        
-    
+
+    .card-img-fixed {
+        max-height: 200px;
+        object-fit: contain;
+        transition: transform 0.3s ease; /* Add smooth zoom effect */
+        cursor: pointer;
+    }
+
+    .card-img-fixed:hover {
+        transform: scale(1.2); /* Zoom effect on hover */
+    }
+
+    .recent-products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 20px;
+    }
+
+    .recent-products .card {
+        flex: 1 1 calc(25% - 20px); /* Adjusts cards to fit 4 per row */
+        max-width: calc(25% - 20px);
+        min-width: 200px;
+    }
+
+    @media (max-width: 768px) {
+        .recent-products .card {
+            flex: 1 1 calc(50% - 20px); /* 2 per row for smaller screens */
+            max-width: calc(50% - 20px);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .recent-products .card {
+            flex: 1 1 100%; /* Full width for extra small screens */
+            max-width: 100%;
+        }
+    }
 </style>
-    <div data-aos="fade-up" class="container">  
-        <div class="card mt-5 my-5">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h2 class="card-title fs-1 mt-3">{{ product.name }}</h2> 
-                        <p class="card-text text-success mb-1 fs-4">{{ product.category }}</p>
-                        {% if product.is_sale %}
-                            <div class="badge bg-danger fs-5 text-white position-absolute w-30 h-20" style="top:0.5rem; right: 0.5rem;">
-                                Top Sale
-                            </div>
-                            <div class="d-flex mt-2 text-warning mb-2 fs-2">
-                                <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
-                            </div>
-                            <p class="text-danger fs-2">
-                                <strike class="text fs-5">Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}/-
-                            </p>
-                            <p class="text-secondary fs-6">{{ product.description }}</p>
-                        {% else %}
-                            <p class="text-danger fs-2">Rs.{{ product.price }}/-</p>
-                            <p class="text-secondary fs-6">{{ product.description }}</p>
-                        {% endif %}
 
-                        <div class="mt-auto">
-                            <p class="card-text fs-6"><small class="text-body-light"><strong>Delivery within 7-10 days</strong></small></p>
-                            <!-- Buttons arranged in a single row -->
-                            <div class="d-flex justify-content-start">
-                            
-                                <!-- Add to Cart Form -->
-                                <form action="{% url 'addtocart' product.id %}" method="POST" class="m">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="prod_id" value="{{ product.id }}">
-                                    <button type="submit" class="btn btn-primary w-20">Add to Cart</button>
-                                </form>
-
-                                <!-- Buy Now Button -->
-                                <a href="{% url 'showcart' %}" class="w-50 ms-2">
-                                    <button class="btn btn-warning w-20">Buy Now</button>
-                                </a>
-                            </div>
+<div data-aos="fade-up" class="container">  
+    <!-- Product Details Card -->
+    <div class="card shadow border-0 mt-3 my-5">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title fs-1 mt-3">{{ product.name }}</h2> 
+                    <p class="card-text text-success mb-1 fs-4">{{ product.category }}</p>
+                    {% if product.is_sale %}
+                        <div class="badge bg-danger fs-5 text-white position-absolute w-30 h-20" style="top:0.5rem; right: 0.5rem;">
+                            Top Sale
                         </div>
+                        <div class="d-flex mt-2 text-warning mb-2 fs-2">
+                            <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
+                        </div>
+                        <p class="text-danger fs-2">
+                            <strike class="text fs-5">Rs.{{ product.price }}</strike>&nbsp;&nbsp;Rs.{{ product.sale_price }}/-
+                        </p>
+                        <p class="text-secondary fs-6">{{ product.description }}</p>
+                    {% else %}
+                        <p class="text-danger fs-2">Rs.{{ product.price }}/-</p>
+                        <p class="text-secondary fs-6">{{ product.description }}</p>
+                    {% endif %}
 
-                        <p class="card-text mt-2 mx-1"><small class="text-body">Last updated 3 mins ago</small></p>
+                    <div class="mt-auto">
+                        <p class="card-text fs-6"><small class="text-body-light"><strong>Delivery within 7-10 days</strong></small></p>
+                        <div class="d-flex justify-content-start">
+                            <form action="{% url 'addtocart' product.id %}" method="POST" class="m">
+                                {% csrf_token %}
+                                <input type="hidden" name="prod_id" value="{{ product.id }}">
+                                <button type="submit" class="btn shadow border-0 btn-outline-primary w-20">Add to Cart</button>
+                            </form>
+                            <a href="{% url 'addtowishlist' product.id %}" class="flex-grow-1 ms-1">
+                                <button class="btn shadow border-0 btn-outline-danger">Wishlist</button>
+                            </a>
+                        </div>
                     </div>
+
+                    <p class="card-text mt-2 mx-1"><small class="text-body">Last updated 3 mins ago</small></p>
                 </div>
             </div>
         </div>
+    </div><br>
+
+    <!-- Recent Products Section -->
+    <div class="mt-5 border-3 shadow">
+        <h3 class="fs-2 text-center fw-bold">Recently Viewed</h3>
+        <div class="recent-products">
+            {% for recent_product in recent_products %}
+                <div class="card text-center border-0 h-100 mt-5">
+                    <div class="card-body d-flex flex-column">
+                        <a href="{% url 'productview' recent_product.id %}">
+                            <img src="{{ recent_product.image.url }}" class="card-img-top card-img-fixed" alt="{{ recent_product.name }}">
+                        </a>
+                        <h2 class="card-title fs-5 mt-3">{{ recent_product.name }}</h2>
+                        <p class="card-text text-primary mb-1">{{ recent_product.category }}</p>
+                        {% if recent_product.is_sale %}
+                            <p class="text-danger fs-7">
+                                <strike>Rs.{{ recent_product.price }}</strike>
+                                Rs.{{ recent_product.sale_price }}/-
+                            </p>
+                        {% else %}
+                            <p class="text-danger fs-7">Rs.{{ recent_product.price }}/-</p>
+                        {% endif %}
+                        <div class="mt-auto">
+                            <a href="{% url 'addtocart' recent_product.id %}" class="btn shadow border-0 btn-outline-primary">Add Cart</a>
+                            <a href="{% url 'addtowishlist' recent_product.id %}" class="btn shadow border-0 btn-outline-danger mt-1">Wishlist</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+</div>
 {% endblock %}
+``

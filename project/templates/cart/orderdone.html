@@ -2,15 +2,18 @@
 {% load static %}
 {% block content %}
 
-<div id="hero" class="hero section" style="overflow: hidden; height: 30vh; display: flex; justify-content: center; align-items: center;">
-    <div class="video-background" style="position: relative; width: 50%; height: 50%; display: flex; justify-content: center; align-items: center;">
+<div style="overflow: hidden; height: 30vh; display: flex; justify-content: center; align-items: center;">
+    <div class="video-background" style="position: absolute; width: 50%; height: 50%; display: flex; justify-content: center; align-items: center;">
         <video autoplay muted loop id="bg-video" style="width: 50%; height: 50%; object-fit: cover; border-radius: 10px;">
             <source src="{% static 'videos/orderdone.mp4' %}" type="video/mp4">
         </video>
     </div>
+    
+    
 </div>
-<div class="text-center mb-5">
-    <a href="{% url 'product'%}"><button class="btn btn-outline-primary">Go Back</button></a>
+<h1 data-aos="fade-up" class="text-center fs-1"><strong>Thankyou For Choosing WearBig</strong></h1>
+<div class="text-center"><br>
+    <a href="{% url 'product'%}"><button class="btn btn-outline-dark">Go Back</button></a>
 </div>
 
 {% endblock content %}

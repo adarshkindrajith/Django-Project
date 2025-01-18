@@ -52,10 +52,10 @@
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between">
                                     <a href="{% url 'addtocart' product.id %}" class="flex-grow-1 me-1">
-                                        <button class="btn btn-outline-primary w-100" value="{{product.id}}" id="add-cart">Add to Cart</button>
+                                        <button class="btn shadow border-0 btn-outline-primary w-100" value="{{product.id}}" id="add-cart">Add Cart</button>
                                     </a>
-                                    <a href="{% url 'productview' product.id %}" class="flex-grow-1 ms-1">
-                                        <button class="btn btn-outline-primary w-100">Buy Now</button>
+                                    <a href="{% url 'addtowishlist' product.id %}" class="flex-grow-1 ms-1">
+                                        <button class="btn shadow border-0 btn-outline-danger w-100">Wishlist</button>
                                     </a>
                                 </div>
                             </div>

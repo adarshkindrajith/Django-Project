@@ -1,39 +1,83 @@
 {% extends 'nav.html' %}
 {% block content %}
-    <div data-aos="fade-up"  class="container mt-5">
-        <h2 class="text-center fs-1">Your Wishlist</h2>
-        <div class="row g-4">
-            {% for item in wishlist_items %}
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card text-center border-2 border-white h-100">
-                        <div class="card-body d-flex flex-column">
-                            <a href="{% url 'productview' item.product.id%}"><img src="{{ item.product.image.url }}" class="card-img-top card-img-fixed" alt="{{ product.name }}"></a>
-                            <h5 class="card-title">{{ item.product.name }}</h5>
-                            <p class="card-text">{{ item.product.category }}</p>
-                            
-                            {% if item.product.is_sale %}
-                                <div class="badge bg-danger text-white position-absolute w-30 h-20" style="top:0.5rem; right: 0.5rem;">
-                                    Top Sale
-                                </div>
-                                <div class="d-flex justify-content-center text-warning mb-2">
-                                    <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
-                                </div>
-                                <p class="text-danger fs-5">
-                                    <strike>Rs.{{ item.product.price }}</strike>&nbsp;&nbsp;Rs.{{ item.product.sale_price }}
-                                </p>
-                            {% else %}
-                                <p class="text-danger fs-5">Rs.{{ item.product.price }}</p>
-                            {% endif %}
-                            
-                            <div class="mt-auto">
-                                <a href="{% url 'removefromwishlist' item.product.id %}" class="btn btn-danger w-100">Remove</a>
-                            </div>
+<style>
+    .card-img-fixed {
+        max-height: 200px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .card-img-fixed:hover {
+        transform: scale(1.2); /* Zoom effect on hover */
+    }
+
+    .wishlist-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid layout */
+        gap: 20px; /* Space between cards */
+    }
+
+    .card {
+        border: 2px solid #f8f9fa; /* Subtle card border for better visual separation */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for card depth */
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        {% comment %} transform: scale(1.03); /* Slight zoom on card hover */ {% endcomment %}
+        {% comment %} box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Elevated shadow on hover */ {% endcomment %}
+    }
+
+    @media (max-width: 768px) {
+        .wishlist-container {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust column size for smaller screens */
+        }
+    }
+
+    @media (max-width: 576px) {
+        .wishlist-container {
+            grid-template-columns: 1fr; /* Single column layout for very small screens */
+        }
+    }
+</style>
+
+<div data-aos="fade-up" class="container mt-5">
+    <h2 class="text-center fs-1 mb-4">Your Wishlist</h2>
+    <div class="wishlist-container">
+        {% for item in wishlist_items %}
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'productview' item.product.id %}">
+                        <img src="{{ item.product.image.url }}" class="card-img-top card-img-fixed" alt="{{ item.product.name }}">
+                    </a>
+                    <h5 class="card-title mt-3">{{ item.product.name }}</h5>
+                    <p class="card-text text-primary">{{ item.product.category }}</p>
+                    
+                    {% if item.product.is_sale %}
+                        <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem;">
+                            Top Sale
                         </div>
+                        <div class="d-flex justify-content-center text-warning mb-2">
+                            <div class="bi-star-fill"></div>&nbsp;&nbsp;Discount Sale&nbsp;&nbsp;<div class="bi-star-fill"></div>
+                        </div>
+                        <p class="text-danger fs-5">
+                            <strike>Rs.{{ item.product.price }}</strike>&nbsp;&nbsp;Rs.{{ item.product.sale_price }}
+                        </p>
+                    {% else %}
+                        <p class="text-danger fs-5">Rs.{{ item.product.price }}</p>
+                    {% endif %}
+                    
+                    <div class="mt-auto">
+                        <a href="{% url 'removefromwishlist' item.product.id %}" class="btn btn-danger w-100">Remove</a>
                     </div>
                 </div>
-            {% empty %}
-                <p class="text-center mt-5">Oops..! It's empty.</p>
-            {% endfor %}
-        </div>
+            </div>
+        {% empty %}
+            <div class="w-100 text-center mt-5">
+                <p class="text-muted fs-4">Oops..! Your wishlist is empty.</p>
+            </div>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

@@ -50,11 +50,11 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{% url 'index'%}" class="active">Home<br></a></li>
+          <li><a href="{% url 'index'%}" class="">Home<br></a></li>
           <li><a href="{% url 'product'%}">Product</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
+          
              
-          <li><a href="#about">About</a></li>
+          <li><a href="{% url 'about'%}"class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
           <li class="dropdown"><a href="#"><span>Shop</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'product'%}">All Product</a></li>
@@ -62,7 +62,7 @@
               <li><a href="{% url 'category' 'Premium-Models'%}">Premium</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="{% url 'contact'%}">Contact</a></li>
           </li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

@@ -51,12 +51,10 @@ def product(request):
         'brands': brands,
     })
 
-
-
-def product_view(request,pk):
-    product=get_object_or_404(Product, pk=pk)
-    return render(request,'product/productview.html',{'product':product})
-
+def product_view(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    recent_products = Product.objects.exclude(pk=pk).order_by('-id')[:4]  # Fetch the 4 most recent products excluding the current one
+    return render(request, 'product/productview.html', {'product': product, 'recent_products': recent_products})
 
 def category(request,ab):
     ab=ab.replace('-',' ')
@@ -239,11 +237,14 @@ def add_to_wishlist(request, product_id):
     # Check if the product is already in the user's wishlist
     if Wishlist.objects.filter(user=request.user, product=product).exists():
         # Product is already in the wishlist
-        return redirect('product')  # Redirect to the wishlist page
+        messages.info(request,"already in your wishlist!")
+        return redirect('product')  # Redirect to the product page
 
     # Add product to the user's wishlist
     Wishlist.objects.create(user=request.user, product=product)
-    return redirect('product')  # Redirect to wishlist page after adding
+    messages.success(request, "added to your wishlist!")  # Add success message
+    
+    return redirect('product')
 
 
 

@@ -43,11 +43,11 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{% url 'index'%}" class="">Home<br></a></li>
-          <li><a href="{% url 'product'%}">Product</a></li>
-          <li><a href="{% url 'showcart' %}">Cart <i class="bi bi-cart-fill fs-5"></i>
+          <li><a href="{% url 'index'%}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">Home<br></a></li>
+          <li><a href="{% url 'product'%}"class="{% if request.resolver_match.url_name == 'product' %}active{% endif %}">Product</a></li>
+          <li><a href="{% url 'showcart' %}" class="{% if request.resolver_match.url_name == 'showcart' %}active{% endif %}">Cart <i class="bi bi-cart-fill fs-5"></i>
           <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{ cart|length }}</span></a></li>
-          <li><a href="{% url 'wishlist' %}">My Fav</a></li>   
+          <li><a href="{% url 'wishlist' %}"class="{% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}">My Fav</a></li>   
           <li class="dropdown"><a href="#"><span>Shop</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'product'%}">All Product</a></li>
@@ -57,10 +57,10 @@
           </li>
          
 
-          <li><a href="#contact">Contact</a></li>
-          <li class="dropdown text-capitalize"><a href="#"><span>{{ user.username }}  {{ user.last_name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          
+          <li class="dropdown text-capitalize"><a href="#"class="{% if request.resolver_match.url_name == 'profileview' %}active{% endif %}"><span>{{ user.username }}  {{ user.last_name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="{% url 'profileview'%}">Profile</a></li>
+              <li><a href="{% url 'profileview'%}"class="{% if request.resolver_match.url_name == 'profileview' %}active{% endif %}">Profile</a></li>
               <li><a href="{% url 'order_summary'%}">Order</a></li>
               <li><a href="{% url 'logout'%}">Logout</a></li>
             </ul>
