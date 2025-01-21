@@ -35,10 +35,17 @@
 
                                     <!-- Cancellation logic -->
                                     {% if not order.cancellation_requested %}
-                                        <form action="{% url 'request_cancellation' order.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">Cancel</button>
-                                        </form>
+                                        {% if not order.payment.paid %}
+                                            <form action="{% url 'request_cancellation' order.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Delete Order</button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% url 'request_cancellation' order.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-warning">Request Cancellation</button>
+                                            </form>
+                                        {% endif %}
                                     {% else %}
                                         <p class="text-success">Cancellation request activated</p>
                                     {% endif %}
@@ -64,4 +71,12 @@
         <h4 class="text-center">No recent orders found.</h4>
     {% endif %}
 </div>
+
+
+
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this order?");
+    }
+</script>
 {% endblock %}

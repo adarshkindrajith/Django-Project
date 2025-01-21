@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xcso6=50y+oi9og8(x*^yll#5rvfld$vtsw)91mgob=o(g=^1@'
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -158,5 +158,5 @@ DEFAULT_FROM_EMAIL ='annyan560@gmail.com'
 
 
 
-STRIPE_SECRET_KEY = "sk_test_51QglN0RrGNqX1qRHtuFgzG1QBw3kRSE9zFrc8pjKilFFWx3uaMWd33m41ncX73ESC1as8WnXk2XaesFycb9ShG8300DkSL6L1n"
+
 STRIPE_PUBLIC_KEY = "pk_test_51QglN0RrGNqX1qRHyVwso5ljn14Xz6Cj3jPuFBpPQUChaqlZZIXXjKGKkNS8jXfwTYShbMYjCT5LnNtz8uYNT8Sa00D9h72vXU"

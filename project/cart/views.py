@@ -247,12 +247,19 @@ def order_summary(request):
 @login_required(login_url='loginn')
 def request_cancellation(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    # Check if the order is eligible for cancellation
     if not order.cancellation_requested and order.order_status in ['Placed', 'Packed']:
-        order.cancellation_requested = True
-        order.save()
-        messages.success(request, f"Cancellation request activated for Order ID {order_id}.")
+        if order.payment.paid == False:  # COD orders have `paid=False`
+            order.delete()  # Delete the order directly if COD
+            messages.success(request, f"Order ID {order_id} has been successfully deleted.")
+        else:
+            order.cancellation_requested = True
+            order.save()
+            messages.success(request, f"Cancellation request activated for Order ID {order_id}.")
     else:
         messages.error(request, "Cancellation cannot be processed for this order.")
+    
     return redirect('order_summary')
 
 

@@ -1,12 +1,12 @@
 {% extends 'base.html'%}
 {% block content %}
 
-<section id="contact" class="contact section">
+<section id="contact" class="contact section bg-dark">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>For anything from WearBig then share with us. we will connect you soon..!</p>
       </div><!-- End Section Title -->
 
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
@@ -18,7 +18,7 @@
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
                 <h3>Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                <p>Kannur, Kerala</p>
               </div>
             </div><!-- End Info Item -->
 
@@ -34,14 +34,15 @@
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p>info@example.com</p>
+                <p>wearbig@gmail.com</p>
               </div>
             </div><!-- End Info Item -->
 
           </div>
 
           <div class="col-lg-7">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+            <form action="{% url 'index'%}" method="post"data-aos="fade-up" data-aos-delay="500">
+            {% csrf_token%}
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -61,11 +62,7 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
+                  <button class="btn btn-primary border-opacity-50" type="submit">Send Message</button>
                 </div>
 
               </div>
