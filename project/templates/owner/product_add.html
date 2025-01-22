@@ -7,6 +7,7 @@
     <div class="card p-4">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+
             <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ product.name|default_if_none:'' }}" required>
@@ -14,25 +15,45 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">Price:</label>
-                <input type="number" step="0.01" name="price" id="price" class="form-control" value="{{ product.price|default_if_none:'' }}" required>
+                <input type="text" name="price" id="price" class="form-control" value="{{ product.price|default_if_none:'' }}" required>
             </div>
 
+            <!-- Existing Category Dropdown -->
             <div class="mb-3">
                 <label for="category" class="form-label">Category:</label>
                 <select name="category" id="category" class="form-select">
+                    <option value="" selected disabled>Select a category</option>
                     {% for category in categories %}
-                    <option value="{{ category.id }}" {% if product.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                    <option value="{{ category.id }}" {% if product.category.id == category.id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
 
+            <!-- New Category Input -->
+            <div class="mb-3">
+                <label for="new_category" class="form-label">Or Add New Category:</label>
+                <input type="text" name="new_category" id="new_category" class="form-control">
+            </div>
+
+            <!-- Existing Brand Dropdown -->
             <div class="mb-3">
                 <label for="brand" class="form-label">Brand:</label>
                 <select name="brand" id="brand" class="form-select">
+                    <option value="" selected disabled>Select a brand</option>
                     {% for brand in brands %}
-                    <option value="{{ brand.id }}" {% if product.brand.id == brand.id %}selected{% endif %}>{{ brand.name }}</option>
+                    <option value="{{ brand.id }}" {% if product.brand.id == brand.id %}selected{% endif %}>
+                        {{ brand.name }}
+                    </option>
                     {% endfor %}
                 </select>
+            </div>
+
+            <!-- New Brand Input -->
+            <div class="mb-3">
+                <label for="new_brand" class="form-label">Or Add New Brand:</label>
+                <input type="text" name="new_brand" id="new_brand" class="form-control">
             </div>
 
             <div class="mb-3">
@@ -47,7 +68,7 @@
 
             <div class="mb-3">
                 <label for="sale_price" class="form-label">Sale Price:</label>
-                <input type="number" step="0.01" name="sale_price" id="sale_price" class="form-control" value="{{ product.sale_price|default_if_none:'' }}">
+                <input type="text" name="sale_price" id="sale_price" class="form-control" value="{{ product.sale_price|default_if_none:'' }}">
             </div>
 
             <div class="mb-3">
@@ -57,10 +78,11 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">
-                    Update Product
+                    Add Product
                 </button>
             </div>
         </form>
     </div>
 </div>
+
 {% endblock %}

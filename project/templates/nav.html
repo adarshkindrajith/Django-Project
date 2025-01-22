@@ -10,7 +10,7 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  {% comment %} <link href="{% static 'assets/img/favicon.png' %}" rel="icon"> {% endcomment %}
   <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -45,9 +45,11 @@
         <ul>
           <li><a href="{% url 'index'%}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">Home<br></a></li>
           <li><a href="{% url 'product'%}"class="{% if request.resolver_match.url_name == 'product' %}active{% endif %}">Product</a></li>
+          {% if user.is_authenticated %}
           <li><a href="{% url 'showcart' %}" class="{% if request.resolver_match.url_name == 'showcart' %}active{% endif %}">Cart <i class="bi bi-cart-fill fs-5"></i>
-          <span class="badge-bg-dark text-primary ms-1" id="cart_quantity">{{ cart|length }}</span></a></li>
+          <span class="badge-bg-dark text-primary ms-1" id="cart_quantity"></span></a></li>
           <li><a href="{% url 'wishlist' %}"class="{% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}">My Fav</a></li>   
+          {% endif %}
           <li class="dropdown"><a href="#"><span>Shop</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'product'%}">All Product</a></li>
@@ -57,7 +59,7 @@
           </li>
          
 
-          
+          {% if user.is_authenticated %}
           <li class="dropdown text-capitalize"><a href="#"class="{% if request.resolver_match.url_name == 'profileview' %}active{% endif %}"><span>{{ user.username }}  {{ user.last_name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'profileview'%}"class="{% if request.resolver_match.url_name == 'profileview' %}active{% endif %}">Profile</a></li>
@@ -65,6 +67,7 @@
               <li><a href="{% url 'logout'%}">Logout</a></li>
             </ul>
           </li>
+          {% endif %}
         </ul>
 
         <!-- Search Form in Navbar -->

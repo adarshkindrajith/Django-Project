@@ -29,15 +29,17 @@
         .wishlist-icon:hover {
             transform: scale(1.2);
         }
-        .message-container {
+            .message-container {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
+            top: 150px;
+            left: 53%;
+            transform: translateX(-50%);
             z-index: 1050;
-            max-width: 300px;
+            max-width: 500px;
         }
         .message-container .alert {
             margin-bottom: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -45,7 +47,7 @@
 
      <div class="message-container">
         {% for message in messages %}
-        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <div class="alert alert-{{message.tags}} alert-dismissible bg-white shadow border-0 text-black fade show" role="alert">
             <strong>{{ message }}</strong>
             
         </div>
@@ -66,8 +68,8 @@
         <div class="row">
             <form method="GET" action="{% url 'product' %}">
                 <div class="input-group">
-                    <input type="search" class="form-control" placeholder="Search by product name..." name="search" value="{{ request.GET.search }}">
-                    <button class="btn btn-primary" type="submit">Search</button>
+                    <input type="search" class="form-control shadow border-1" placeholder="Search by product name..." name="search" value="{{ request.GET.search }}">
+                    <button class="btn btn-primary shadow border-0" type="submit">Search</button>
                 </div>
             </form><br><br><br><br><br> 
             <!-- Filter Options (on the left side) -->
@@ -75,28 +77,27 @@
                 <h5><strong>Look here.....</strong></h5>
                 <form method="GET" action="{% url 'product' %}">
                     <!-- Category filter -->
-                    <div class="mt-4">
+                    <div class="mt-4 ">
                         <h6><strong>Category</strong></h6>
-                        {% for category in categories %}
-                            <div>
-                                <input type="radio" id="category-{{category.id}}" name="category" value="{{category.id}}" {% if category.id == request.GET.category %}checked{% endif %}>
-                                <label for="category-{{category.id}}">{{ category.name }}</label>
-                            </div>
-                        {% endfor %}
+                        <select name="category" class="form-select shadow border-1">
+                            <option value="">All Categories</option>
+                            {% for category in categories %}
+                                <option value="{{category.id}}" {% if category.id == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
 
                     <!-- Brand filter -->
                     <div class="mt-3">
                         <h6><strong>Brand</strong></h6>
-                        {% for brand in brands %}
-                            <div>
-                                <input type="radio" id="brand-{{brand.id}}" name="brand" value="{{brand.id}}" {% if brand.id == request.GET.brand %}checked{% endif %}>
-                                <label for="brand-{{brand.id}}">{{ brand.name }}</label>
-                            </div>
-                        {% endfor %}
+                        <select name="brand" class="form-select shadow border-1">
+                            <option value="">All Brands</option>
+                            {% for brand in brands %}
+                                <option value="{{brand.id}}" {% if brand.id == request.GET.brand %}selected{% endif %}>{{ brand.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-
-                    <!-- Price range filter -->
+                                        <!-- Price range filter -->
                     <div class="mt-3">
                         <h6><strong>Price</strong></h6>
                         <div>
@@ -109,7 +110,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary mt-3" type="submit">Apply</button>
+                    <button class="btn btn-outline-primary mt-3 shadow border-1" type="submit">Apply</button>
                 </form>
             </div>
 
@@ -155,6 +156,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+    $(document).ready(function () {
+        $(".add-to-cart").on("click", function (e) {
+            e.preventDefault();
+            var productId = $(this).data("product-id");
+
+            $.ajax({
+                url: `/addtocart/${productId}/`,
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (response.cart_count !== undefined) {
+                        $("#cart_quantity").text(response.cart_count);
+                        alert("Product added to cart!");
+                    }
+                },
+                error: function () {
+                    alert("Error adding product to cart.");
+                }
+            });
+        });
+    });
+</script>
+
 
     {% endblock %}
 </body>

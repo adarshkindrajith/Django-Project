@@ -89,16 +89,28 @@ def product_add(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         price = request.POST.get('price')
-        category_id = request.POST.get('category')
-        brand_id = request.POST.get('brand')
         description = request.POST.get('description')
         is_sale = request.POST.get('is_sale') == 'on'
         sale_price = request.POST.get('sale_price') or None
         image = request.FILES.get('image')
 
-        category = get_object_or_404(Category, id=category_id)
-        brand = get_object_or_404(Brand, id=brand_id)
+        # Handling category input
+        category_id = request.POST.get('category')
+        new_category = request.POST.get('new_category')
+        if new_category:
+            category, created = Category.objects.get_or_create(name=new_category)
+        else:
+            category = get_object_or_404(Category, id=category_id)
 
+        # Handling brand input
+        brand_id = request.POST.get('brand')
+        new_brand = request.POST.get('new_brand')
+        if new_brand:
+            brand, created = Brand.objects.get_or_create(name=new_brand)
+        else:
+            brand = get_object_or_404(Brand, id=brand_id)
+
+        # Create the product
         Product.objects.create(
             name=name,
             price=price,
@@ -184,15 +196,13 @@ def unblock_user(request, user_id):
 
 @login_required(login_url='loginn')
 def orders(request):
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('created_at',)
     STATUS_CHOICES = Order._meta.get_field('order_status').choices
     context = {
         'orders': orders,
         'STATUS_CHOICES': STATUS_CHOICES,
     }
     return render(request, 'owner/orders.html', context)
-
-
 
 
 

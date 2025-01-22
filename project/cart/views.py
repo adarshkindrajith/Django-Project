@@ -8,35 +8,37 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
+
+
+import stripe
+from django.conf import settings
+stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 
 
 
 
+from django.http import JsonResponse
 
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def addtocart(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
-    
 
-    cart_item = Cart.objects.filter(user=user, product=product).first()
-    
-    if cart_item:
+    cart_item, created = Cart.objects.get_or_create(user=user, product=product)
+
+    if not created:
         cart_item.quantity += 1
         cart_item.save()
-        messages.success(request, "Already added to Cart")    
-    else:
 
-        Cart.objects.create(user=user, product=product, quantity=1) 
-        messages.success(request, "Product added to Cart")
+    cart_count = Cart.objects.filter(user=user).count()
+
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        return JsonResponse({'cart_count': cart_count})
+
+    messages.success(request, "Product added to Cart")
     return redirect('product')
-
-
-
-
-
 
 
 
@@ -87,6 +89,7 @@ def plus_cart(request):
             return JsonResponse(data)
         except Cart.DoesNotExist:
             return JsonResponse({'error': 'Cart item not found'}, status=404)
+
 
 
 def minus_cart(request):
@@ -236,29 +239,25 @@ def checkout(request):
 def order_summary(request):
     user = request.user
     orders = Order.objects.filter(user=user).order_by('-date')
-
-    context = {
-        'orders': orders
-    }
-    return render(request, 'cart/order_summary.html', context)
-
+    return render(request, 'cart/order_summary.html', {'orders': orders})
 
 
 @login_required(login_url='loginn')
 def request_cancellation(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
 
-    # Check if the order is eligible for cancellation
-    if not order.cancellation_requested and order.order_status in ['Placed', 'Packed']:
-        if order.payment.paid == False:  # COD orders have `paid=False`
-            order.delete()  # Delete the order directly if COD
-            messages.success(request, f"Order ID {order_id} has been successfully deleted.")
-        else:
+    # Only allow cancellation or deletion for 'Placed' or 'Packed' orders
+
+    if not order.payment.paid:  # Only for COD orders where payment is not completed
+        order.delete()
+        messages.success(request, f"Order ID {order_id} has been successfully deleted.")
+    else:
+        if not order.cancellation_requested:
             order.cancellation_requested = True
             order.save()
             messages.success(request, f"Cancellation request activated for Order ID {order_id}.")
-    else:
-        messages.error(request, "Cancellation cannot be processed for this order.")
+        else:
+            messages.warning(request, f"Cancellation request already activated for Order ID {order_id}.")
     
     return redirect('order_summary')
 
@@ -268,10 +267,6 @@ def request_cancellation(request, order_id):
 
 
 
-
-import stripe
-from django.conf import settings
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)

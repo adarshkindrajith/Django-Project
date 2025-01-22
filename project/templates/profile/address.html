@@ -18,19 +18,23 @@
             {% if add %}
                 {% for ad in add%}
                 <div class="col-sm-6">
-                    <div class="card m-2">
+                    <div class="card shadow border-0 m-2">
                         <div class="card-body">
-                            <h2>Address-{{forloop.counter}}</h2>
-                            <p>Name:{{ad.first_name}}   {{ad.last_name}}</p>
+                            <p class="fs-4 text-center fw-bold">ADDRESS ({{forloop.counter}})</p>
+                            <p class="text-capitalize fw-bold">Name :{{ad.first_name}}   {{ad.last_name}}</p>
                             <p>location:{{ad.location}}</p>
                             <p>Mobile:{{ad.phone}}</p>
                             <p>City:{{ad.city}}</p>
                             <p>Pincode:{{ad.pincode}}</p>
-                            <p><a href="{% url 'updateaddress' pk=ad.id%}"><button class="btn btn-success">Update</button></a> </p>
-                            <form method="POST" action="{% url 'deleteaddress' pk=ad.id %}">
-                                {% csrf_token %}
-                                <p><button class="btn btn-success">Delete</button></p>
-                            </form>
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'updateaddress' pk=ad.id %}">
+                                    <button class="btn btn-outline-primary mx-2">Update</button>
+                                </a>
+                                <form method="POST" action="{% url 'deleteaddress' pk=ad.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

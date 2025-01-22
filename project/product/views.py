@@ -19,8 +19,11 @@ def product(request):
     brand_id = request.GET.get('brand')
     price_filter = request.GET.get('price')
 
-    # Filter by search query
-    products = Product.objects.filter(name__icontains=query)
+    # Search by first letter or full name (case-insensitive)
+    if query:
+        products = Product.objects.filter(Q(name__istartswith=query) | Q(name__icontains=query))
+    else:
+        products = Product.objects.all()
 
     # Filter by category if selected
     if category_id:
@@ -36,9 +39,9 @@ def product(request):
     elif price_filter == 'high':
         products = products.order_by('-price')
 
-    if not products:
+    if not products.exists():
         messages.info(request, "No products found...")
-    
+
     # Get all categories and brands for the filter options
     categories = Category.objects.all()
     brands = Brand.objects.all()
@@ -50,6 +53,10 @@ def product(request):
         'categories': categories,
         'brands': brands,
     })
+
+
+
+
 
 def product_view(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -237,12 +244,12 @@ def add_to_wishlist(request, product_id):
     # Check if the product is already in the user's wishlist
     if Wishlist.objects.filter(user=request.user, product=product).exists():
         # Product is already in the wishlist
-        messages.info(request,"already in your wishlist!")
+        messages.info(request,"Already in your wishlist..!")
         return redirect('product')  # Redirect to the product page
 
     # Add product to the user's wishlist
     Wishlist.objects.create(user=request.user, product=product)
-    messages.success(request, "added to your wishlist!")  # Add success message
+    messages.success(request, "Added to your wishlist!")  # Add success message
     
     return redirect('product')
 

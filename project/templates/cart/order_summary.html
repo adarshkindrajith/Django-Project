@@ -6,14 +6,14 @@
         <div class="row">
             {% for order in orders %}
                 <div class="col-md-6 mb-4">
-                    <div class="card shadow border-1">
+                    <div class="card shadow border-0">
                         <div class="card-body">
                             <div class="d-flex align-items-start">
                                 <div>
                                     <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}" class="img-fluid" style="width: 150px; height: auto; border-radius: 8px;">
                                 </div>
                                 <div class="ms-3 flex-grow-1">
-                                    <h5>Order ID: {{ order.id }}</h5>
+                                    <h5>ORDER-ID: {{ order.id }}</h5>
                                     <p>Product: {{ order.product.name }}</p>
                                     <p>Quantity: {{ order.quantity }}</p>
                                     <p>Total: Rs.{{ order.total_amount }}</p>
@@ -33,28 +33,32 @@
                                         {% endfor %}
                                     {% endif %}
 
-                                    <!-- Cancellation logic -->
-                                    {% if not order.cancellation_requested %}
-                                        {% if not order.payment.paid %}
-                                            <form action="{% url 'request_cancellation' order.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">Delete Order</button>
-                                            </form>
+                                    <!-- Cancellation logic: Hide button if order status is Cancelled -->
+                                    {% if order.order_status != 'Cancelled' %}
+                                        {% if not order.cancellation_requested %}
+                                            {% if not order.payment.paid %}
+                                                <form action="{% url 'request_cancellation' order.id %}" method="POST" onsubmit="return confirm('Are you sure you want to Delete this order?');">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-danger">Delete Order</button>
+                                                </form>
+                                            {% else %}
+                                                <form action="{% url 'request_cancellation' order.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-warning">Request Cancellation</button>
+                                                </form>
+                                            {% endif %}
                                         {% else %}
-                                            <form action="{% url 'request_cancellation' order.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-warning">Request Cancellation</button>
-                                            </form>
+                                            <p class="text-success">Cancellation request activated</p>
                                         {% endif %}
                                     {% else %}
-                                        <p class="text-success">Cancellation request activated</p>
+                                        <p class="text-danger">This order has been cancelled.</p>
                                     {% endif %}
 
                                     <!-- Progress Bar -->
-                                    <div class="progress mt-3">
-                                        <div class="progress-bar {% if order.order_status == 'Delivered' %}bg-success{% elif order.order_status == 'Shipped' %}bg-dark{% elif order.order_status == 'On the way' %}bg-warning{% elif order.order_status == 'Cancelled' %}bg-danger{% else %}bg-secondary{% endif %}" 
+                                    <div class="progress  mt-3">
+                                        <div class="progress-bar {% if order.order_status == 'Deliverd' %}bg-success{% elif order.order_status == 'Shipped' %}bg-dark{% elif order.order_status == 'On the way' %}bg-warning{% elif order.order_status == 'Cancelled' %}bg-danger{% else %}bg-secondary{% endif %}" 
                                              role="progressbar" 
-                                             style="width: {% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Delivered' %}100{% elif order.order_status == 'Cancelled' %}100{% else %}0{% endif %}%;" 
+                                             style="width: {% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Deliverd' %}100{% elif order.order_status == 'Cancelled' %}100{% else %}0{% endif %}%;" 
                                              aria-valuenow="{% if order.order_status == 'Placed' %}25{% elif order.order_status == 'Packed' %}50{% elif order.order_status == 'Shipped' %}75{% elif order.order_status == 'On the way' %}90{% elif order.order_status == 'Delivered' %}100{% else %}0{% endif %}" 
                                              aria-valuemin="0" aria-valuemax="100">
                                              {{ order.order_status }}
@@ -72,11 +76,10 @@
     {% endif %}
 </div>
 
-
-
 <script>
     function confirmDelete() {
         return confirm("Are you sure you want to delete this order?");
     }
 </script>
+
 {% endblock %}
