@@ -82,7 +82,6 @@ def product_list(request):
 
 
 
-
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def product_add(request):
@@ -94,23 +93,23 @@ def product_add(request):
         sale_price = request.POST.get('sale_price') or None
         image = request.FILES.get('image')
 
-        # Handling category input
-        category_id = request.POST.get('category')
-        new_category = request.POST.get('new_category')
-        if new_category:
-            category, created = Category.objects.get_or_create(name=new_category)
+        # Handling new or existing category
+        new_category_name = request.POST.get('new_category').strip()
+        if new_category_name:
+            category, created = Category.objects.get_or_create(name=new_category_name)
         else:
+            category_id = request.POST.get('category')
             category = get_object_or_404(Category, id=category_id)
 
-        # Handling brand input
-        brand_id = request.POST.get('brand')
-        new_brand = request.POST.get('new_brand')
-        if new_brand:
-            brand, created = Brand.objects.get_or_create(name=new_brand)
+        # Handling new or existing brand
+        new_brand_name = request.POST.get('new_brand').strip()
+        if new_brand_name:
+            brand, created = Brand.objects.get_or_create(name=new_brand_name)
         else:
+            brand_id = request.POST.get('brand')
             brand = get_object_or_404(Brand, id=brand_id)
 
-        # Create the product
+        # Creating the product
         Product.objects.create(
             name=name,
             price=price,
@@ -130,30 +129,47 @@ def product_add(request):
 
 
 
-
-
 @login_required(login_url='loginn')
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def product_edit(request, id):
     product = get_object_or_404(Product, id=id)
+    
     if request.method == 'POST':
         product.name = request.POST.get('name')
         product.price = request.POST.get('price')
-        product.category = get_object_or_404(Category, id=request.POST.get('category'))
-        product.brand = get_object_or_404(Brand, id=request.POST.get('brand'))
         product.description = request.POST.get('description')
         product.is_sale = request.POST.get('is_sale') == 'on'
         product.sale_price = request.POST.get('sale_price') or None
+
+        # Handling category update
+        new_category_name = request.POST.get('new_category', '').strip()
+        category_id = request.POST.get('category')
+        if new_category_name:
+            category, created = Category.objects.get_or_create(name=new_category_name)
+        else:
+            category = get_object_or_404(Category, id=category_id)
+        product.category = category
+
+        # Handling brand update
+        new_brand_name = request.POST.get('new_brand', '').strip()
+        brand_id = request.POST.get('brand')
+        if new_brand_name:
+            brand, created = Brand.objects.get_or_create(name=new_brand_name)
+        else:
+            brand = get_object_or_404(Brand, id=brand_id)
+        product.brand = brand
+
+        # Handling image update
         if 'image' in request.FILES:
             product.image = request.FILES['image']
+
         product.save()
         messages.success(request, "Product updated successfully!")
         return redirect('product_list')
 
     categories = Category.objects.all()
     brands = Brand.objects.all()
-    return render(request, 'owner/product_add.html', {'product': product, 'categories': categories, 'brands': brands})
-
+    return render(request, 'owner/product_edit.html', {'product': product, 'categories': categories, 'brands': brands})
 
 
 
@@ -196,13 +212,15 @@ def unblock_user(request, user_id):
 
 @login_required(login_url='loginn')
 def orders(request):
-    orders = Order.objects.all().order_by('created_at',)
+    orders = Order.objects.all()
     STATUS_CHOICES = Order._meta.get_field('order_status').choices
     context = {
         'orders': orders,
         'STATUS_CHOICES': STATUS_CHOICES,
     }
     return render(request, 'owner/orders.html', context)
+
+
 
 
 

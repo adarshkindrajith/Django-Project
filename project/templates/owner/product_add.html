@@ -3,9 +3,9 @@
 {% block content %}
 
 <div class="container my-5">
-    <h1 class="text-center text-white mb-2">Add Product</h1>
-    <div class="card p-4">
-        <form method="post" enctype="multipart/form-data">
+    <h1 class="text-center  mb-5">Add Product</h1>
+    <div class="card shadow-lg border-0 p-4">
+        <form method="post" action="{% url 'product_add' %}" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="mb-3">
@@ -15,7 +15,7 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">Price:</label>
-                <input type="text" name="price" id="price" class="form-control" value="{{ product.price|default_if_none:'' }}" required>
+                <input type="number" name="price" id="price" class="form-control" value="{{ product.price|default_if_none:'' }}" required>
             </div>
 
             <!-- Existing Category Dropdown -->
@@ -58,7 +58,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description:</label>
-                <textarea name="description" id="description" class="form-control" rows="3">{{ product.description|default_if_none:'' }}</textarea>
+                <textarea name="description" id="description" class="form-control" rows="3"required>{{ product.description|default_if_none:'' }}</textarea>
             </div>
 
             <div class="form-check mb-3">
@@ -73,8 +73,9 @@
 
             <div class="mb-3">
                 <label for="image" class="form-label">Image:</label>
-                <input type="file" name="image" id="image" class="form-control">
+                <input type="file" name="image" id="image" class="form-control"required>
             </div>
+            
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">

@@ -51,7 +51,7 @@
         <h1 class="sitename">WearBig</h1>
       </a>
 
-      <nav id="navmenu" class="navmenu">
+      <nav id="navmenu" class="navmenu ">
         <ul>
           <li><a href="#hero" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">Home<br></a></li>
           <li><a href="{% url 'product'%}">Product</a></li>
@@ -145,22 +145,25 @@
       </div>
 
     </section><!-- /Clients Section --><br><br><br><br><br><br><br><br><b><br>
+      <div data-aos="fade-up" class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <a href="{% static 'assets/img/index.png' %}" class="d-block">
+          <img src="{% static 'assets/img/index.png' %}" class="img-fluid w-100 h-100" alt="Full View Image">
+        </a>
+      </div><br><br><br><br><br><br><br>
 
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-          <ol class="carousel-indicators">
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-          </ol>
+
+
+       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+            
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="d-block w-100" src="{% static 'assets/img/Black.png'%}" alt="First slide">
+              <img class="d-block w-100" src="{% static 'assets/img/index10.jpg'%}" alt="First slide">
             </div>
             <div class="carousel-item">
               <img class="d-block w-100" src="{% static 'assets/img/tissot-valeur.webp'%}" alt="Second slide">
             </div>
             <div class="carousel-item">
-              <img class="d-block w-100" src="{% static 'assets/img/back.webp'%}" alt="Third slide">
+              <img class="d-block w-100" src="{% static 'assets/img/index12.webp'%}" alt="Third slide">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
@@ -171,7 +174,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </a>
-        </div>
+        </div><br><br><br><br><br><br><br><br><br>
 
 
 
@@ -181,99 +184,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {% comment %} <!-- Services Section -->
-    <section id="services" class="services section bg-black">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item position-relative">
-              <i class="bi bi-activity"></i>
-              <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item position-relative">
-              <i class="bi bi-bounding-box-circles"></i>
-              <h4><a href="" class="stretched-link">Sed ut perspici</a></h4>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item position-relative">
-              <i class="bi bi-calendar4-week"></i>
-              <h4><a href="" class="stretched-link">Magni Dolores</a></h4>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item position-relative">
-              <i class="bi bi-broadcast"></i>
-              <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-            </div>
-          </div><!-- End Service Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Services Section --> {% endcomment %}
-
-    <!-- Alt Services Section -->
-    <br><br><br><br><br><br><br><br>
     <section id="alt-services" class="alt-services section bg-black">
 
       <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
@@ -285,9 +195,9 @@
               <div class="img">
                 <img src="{% static 'assets/img/rolexhome.jpg'%}" class="img-fluid" alt="">
               </div>
-              <div class="details">
+              <div class="details opacity-25">
                 <a href="{% url 'brand' 'Rolex'%}" class="stretched-link">
-                  <h3>Rolex World</h3>
+                  <h3 class="text-black fs-3">Rolex World</h3>
                 </a>
               </div>
             </div>
@@ -298,9 +208,9 @@
               <div class="img">
                 <img src="{% static 'assets/img/tissothome1.webp'%}" class="img-fluid" alt="">
               </div>
-              <div class="details">
+              <div class="details opacity-25">
                 <a href="{% url 'brand' 'Tissot'%}" class="stretched-link">
-                  <h3>Tissot World</h3>
+                  <h3 class="text-black fs-3">Tissot World</h3>
                 </a>
               </div>
             </div>
@@ -311,9 +221,9 @@
               <div class="img">
                 <img src="{% static 'assets/img/fasthome1.jpg'%}" class="img-fluid" alt="">
               </div>
-              <div class="details">
-                <a href="{% url 'brand' 'FastTrack'%}" class="stretched-link">
-                  <h3>FastTrack World</h3>
+              <div class="details opacity-25">
+                <a href="{% url 'brand' 'Fastrack'%}" class="stretched-link">
+                  <h3 class="text-black fs-3">FastTrack World</h3>
                 </a>
               </div>
             </div>
@@ -324,9 +234,9 @@
               <div class="img">
                 <img src="{% static 'assets/img/PATEK1.jpg'%}" class="img-fluid">
               </div>
-              <div class="details">
-                <a href="{% url 'brand' 'Petak'%}" class="stretched-link">
-                  <h3>Patek Philippe World</h3>
+              <div class="details opacity-25">
+                <a href="{% url 'brand' 'Patek Philippe'%}" class="stretched-link">
+                  <h3 class="text-black fs-3">Patek Philippe World</h3>
                 </a>
                 
               </div>
