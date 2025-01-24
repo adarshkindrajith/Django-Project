@@ -210,16 +210,16 @@ def unblock_user(request, user_id):
 
 
 
+
 @login_required(login_url='loginn')
 def orders(request):
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-created_at')  # Orders sorted by newest first
     STATUS_CHOICES = Order._meta.get_field('order_status').choices
     context = {
         'orders': orders,
         'STATUS_CHOICES': STATUS_CHOICES,
     }
     return render(request, 'owner/orders.html', context)
-
 
 
 

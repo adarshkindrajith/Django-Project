@@ -1,13 +1,37 @@
-{% extends 'nav.html'%}
+{% extends 'nav.html' %}
 {% block content %}
-<div class="text-center mt-5 justify-content-center">
-    <h1 class="fs-1">Enter your Mail</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Sent</button>
-  </form>
+<style>
+  body {
+    background-image: url('/static/assets/img/new2.jpg');  /* Path to your image */
+    background-size: cover;          /* Cover the entire page */
+    background-position: center;      /* Center the image */
+    background-attachment: fixed;     /* Fixed background on scroll */
+    height: 100vh;                    /* Full height of viewport */
+    margin: 0;
+    padding: 0;
+  }
 
+  .content-wrapper {
+    background: rgba(0, 0, 0, 0.5);  /* Optional: adds a dark overlay */
+    padding: 50px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  h1, form {
+    color: white;  /* Ensures content is visible over the background */
+  }
+</style>
+
+<div class="text-center mt-5 justify-content-center">
+    <div class="content-wrapper">
+      <h1 class="fs-1 mb-5">Enter your Mail</h1>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Sent</button>
+      </form>
+    </div>
 </div>
-  
+
 {% endblock %}

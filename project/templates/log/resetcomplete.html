@@ -1,8 +1,21 @@
 {% extends 'nav.html'%}
 {% block content %}
+<style>
+    body {
+    background-image: url('/static/assets/img/new3.jpg');  /* Path to your image */
+    background-size: cover;          /* Cover the entire page */
+    background-position: center;      /* Center the image */
+    background-attachment: fixed;     /* Fixed background on scroll */
+    height: 100vh;                    /* Full height of viewport */
+    margin: 0;
+    padding: 0;
+  }
+
+</style>
+
 <div class="text-center justify-content-center mt-5">
-    <h1 class="fs-1">Password Reset Completed</h2>
-    <h3 class="mt-2">Now you can    <a href="{% url 'loginn' %}"><button class="btn btn-primary">log in</button></a></h3>
+    <h1 class="fs-1 text-white">Password Reset Completed</h2>
+    <h3 class="mt-2 text-white">Now you can    <a href="{% url 'loginn' %}"><button class="btn btn-outline-primary mx-3">log in</button></a></h3>
 
 </div>
 

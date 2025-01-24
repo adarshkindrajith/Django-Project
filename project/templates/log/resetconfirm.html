@@ -1,11 +1,25 @@
 {% extends 'nav.html'%}
 {% block content %}
+
+<style>
+    body {
+    background-image: url('/static/assets/img/new4.avif');  /* Path to your image */
+    background-size: cover;          /* Cover the entire page */
+    background-position: center;      /* Center the image */
+    background-attachment: fixed;     /* Fixed background on scroll */
+    height: 100vh;                    /* Full height of viewport */
+    margin: 0;
+    padding: 0;
+  }
+
+
+</style>
 <div class="mx-5 mt-5">
-    <h1>Reset Your Password</h1>
-    <form method="post">
+    <h1 class="text-white">Reset Your Password</h1>
+    <form method="post" class="text-white">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary mx-2">Set New Password</button>
+        <button type="submit" class="btn btn-outline-success shadow mx-2">Set New Password</button>
     </form>
 
 </div>
