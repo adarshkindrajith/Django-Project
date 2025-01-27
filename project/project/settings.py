@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
             
-    'ENGINE':'django.db.backends.postgresql_psycopg2',
-    'NAME':'django',
-    'USER':'postgres',
-    'PASSWORD':'Adarsh@199',
-    'HOST':'localhost',
-    'PORT':'5432',
+    'ENGINE':config("DB_ENGINE"),
+    'NAME':config("DB_NAME"),
+    'USER':config("DB_USER"),
+    'PASSWORD':config("DB_PASSWORD"),
+    'HOST':config("DB_HOST"),
+    'PORT':config("DB_PORT"),
 
 
        
@@ -146,17 +146,14 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_HOST=config('EMAIL_HOST')
-EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+
+
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_PORT=config('EMAIL_PORT')
-EMAIL_USE_TLS=True
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL =config('DEFAULT_FROM_EMAIL')
-
-
-
-
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 
 
 
