@@ -65,7 +65,7 @@ def signup(request):
         email_subject = "Activate your Account"
         message = render_to_string('log/activate.html', {
             'user': user,
-            'domain': '51.20.192.151',
+            'domain': 'wearbig.shop',
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': generate_token.make_token(user),
         })
