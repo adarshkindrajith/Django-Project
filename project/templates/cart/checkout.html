@@ -58,7 +58,7 @@
                     <form action="" method="POST">
                         {% csrf_token %}
                         {% for address in add %}
-                            <div class="card mb-3 shadow border-0">
+                            <div class="card mb-3 shadow border-1">
                                 <div class="card-body p-4">
                                     <h5><strong>{{ address.first_name }} {{ address.last_name }}</strong></h5>
                                     <p>Mobile: {{ address.phone }}</p>
