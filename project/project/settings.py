@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG',cast=bool)
 
 ALLOWED_HOSTS = ['wearbig.shop', 'www.wearbig.shop', 'localhost', '127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['https://wearbig.shop', 'https://www.wearbig.shop']
 
 
 # Application definition
